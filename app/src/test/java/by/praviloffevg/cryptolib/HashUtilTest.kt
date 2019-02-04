@@ -31,53 +31,9 @@ class HashUtilTest {
     }
 
     @Test
-    fun `should return the same values when getting hash given sha1 and called second time`() {
+    @Parameters(method = "getAlgorithms")
+    fun `should return the same values when getting hash given called second time`(algorithm: Algorithms) {
         val inputParam = "input param"
-        val algorithm = Algorithms.SHA1
-        val firstHash = hashUtil.getHash(inputParam, algorithm)
-
-        val secondHash = hashUtil.getHash(inputParam, algorithm)
-
-        assert(firstHash).isEqualTo(secondHash)
-    }
-
-    @Test
-    fun `should return the same values when getting hash given sha256 and called second time`() {
-        val inputParam = "input param"
-        val algorithm = Algorithms.SHA256
-        val firstHash = hashUtil.getHash(inputParam, algorithm)
-
-        val secondHash = hashUtil.getHash(inputParam, algorithm)
-
-        assert(firstHash).isEqualTo(secondHash)
-    }
-
-    @Test
-    fun `should return the same values when getting hash given sha384 and called second time`() {
-        val inputParam = "input param"
-        val algorithm = Algorithms.SHA384
-        val firstHash = hashUtil.getHash(inputParam, algorithm)
-
-        val secondHash = hashUtil.getHash(inputParam, algorithm)
-
-        assert(firstHash).isEqualTo(secondHash)
-    }
-
-    @Test
-    fun `should return the same values when getting hash given sha512 and called second time`() {
-        val inputParam = "input param"
-        val algorithm = Algorithms.SHA512
-        val firstHash = hashUtil.getHash(inputParam, algorithm)
-
-        val secondHash = hashUtil.getHash(inputParam, algorithm)
-
-        assert(firstHash).isEqualTo(secondHash)
-    }
-
-    @Test
-    fun `should return the same values when getting hash given md5 and called second time`() {
-        val inputParam = "input param"
-        val algorithm = Algorithms.MD5
         val firstHash = hashUtil.getHash(inputParam, algorithm)
 
         val secondHash = hashUtil.getHash(inputParam, algorithm)
@@ -224,6 +180,14 @@ class HashUtilTest {
         arrayOf(Algorithms.SHA384, 96),
         arrayOf(Algorithms.SHA512, 128),
         arrayOf(Algorithms.MD5, 32)
+    )
+
+    fun getAlgorithms() = arrayOf(
+        arrayOf(Algorithms.SHA1),
+        arrayOf(Algorithms.SHA256),
+        arrayOf(Algorithms.SHA384),
+        arrayOf(Algorithms.SHA512),
+        arrayOf(Algorithms.MD5)
     )
 
 }
