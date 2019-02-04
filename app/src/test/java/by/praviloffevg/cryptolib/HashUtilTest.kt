@@ -12,9 +12,9 @@ import org.junit.runner.RunWith
 // Copyright (c) 2019 . All rights reserved.
 
 @RunWith(JUnitParamsRunner::class)
-class HashTest {
+class HashUtilTest {
 
-    private val hash = Hash()
+    private val hash = HashUtil()
 
     @Test
     @Parameters(method = "getHashes")

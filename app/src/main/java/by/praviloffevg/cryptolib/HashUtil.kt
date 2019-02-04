@@ -6,7 +6,7 @@ import java.security.MessageDigest
 // Created by Yauheni Pravilau on 02.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class Hash {
+class HashUtil {
 
     fun getHash(input: String, algorithm: Algorithms): String {
         val messageDigest = MessageDigest.getInstance(algorithm.type)
