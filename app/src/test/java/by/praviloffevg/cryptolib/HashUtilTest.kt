@@ -14,20 +14,75 @@ import org.junit.runner.RunWith
 @RunWith(JUnitParamsRunner::class)
 class HashUtilTest {
 
-    private val hash = HashUtil()
+    private val hashUtil = HashUtil()
 
     @Test
     @Parameters(method = "getHashes")
     fun `should return correct hash`(inputParam: String, expectedParam: String, algorithm: Algorithms) {
-        assert(hash.getHash(inputParam, algorithm)).isEqualTo(expectedParam)
+        assert(hashUtil.getHash(inputParam, algorithm)).isEqualTo(expectedParam)
     }
 
     @Test
     @Parameters(method = "getLength")
     fun `should return correct length`(algorithm: Algorithms, length: Int) {
         val inputParam = "Test"
-        val hashedValue = hash.getHash(inputParam, algorithm)
+        val hashedValue = hashUtil.getHash(inputParam, algorithm)
         assert(hashedValue.length).isEqualTo(length)
+    }
+
+    @Test
+    fun `should return the same values when getting hash given sha1 and called second time`() {
+        val inputParam = "input param"
+        val algorithm = Algorithms.SHA1
+        val firstHash = hashUtil.getHash(inputParam, algorithm)
+
+        val secondHash = hashUtil.getHash(inputParam, algorithm)
+
+        assert(firstHash).isEqualTo(secondHash)
+    }
+
+    @Test
+    fun `should return the same values when getting hash given sha256 and called second time`() {
+        val inputParam = "input param"
+        val algorithm = Algorithms.SHA256
+        val firstHash = hashUtil.getHash(inputParam, algorithm)
+
+        val secondHash = hashUtil.getHash(inputParam, algorithm)
+
+        assert(firstHash).isEqualTo(secondHash)
+    }
+
+    @Test
+    fun `should return the same values when getting hash given sha384 and called second time`() {
+        val inputParam = "input param"
+        val algorithm = Algorithms.SHA384
+        val firstHash = hashUtil.getHash(inputParam, algorithm)
+
+        val secondHash = hashUtil.getHash(inputParam, algorithm)
+
+        assert(firstHash).isEqualTo(secondHash)
+    }
+
+    @Test
+    fun `should return the same values when getting hash given sha512 and called second time`() {
+        val inputParam = "input param"
+        val algorithm = Algorithms.SHA512
+        val firstHash = hashUtil.getHash(inputParam, algorithm)
+
+        val secondHash = hashUtil.getHash(inputParam, algorithm)
+
+        assert(firstHash).isEqualTo(secondHash)
+    }
+
+    @Test
+    fun `should return the same values when getting hash given md5 and called second time`() {
+        val inputParam = "input param"
+        val algorithm = Algorithms.MD5
+        val firstHash = hashUtil.getHash(inputParam, algorithm)
+
+        val secondHash = hashUtil.getHash(inputParam, algorithm)
+
+        assert(firstHash).isEqualTo(secondHash)
     }
 
     fun getHashes() = arrayOf(
