@@ -1,15 +1,21 @@
 package by.praviloffevg.cryptolib
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.MessageDigest
+import java.security.Security
 
 
 // Created by Yauheni Pravilau on 02.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class HashUtil {
+object HashUtil {
 
     fun getHash(input: String, algorithm: Algorithms): String {
-        val messageDigest = MessageDigest.getInstance(algorithm.type)
+        Security.addProvider(BouncyCastleProvider())
+        val messageDigest = MessageDigest.getInstance(
+            algorithm.type,
+            BouncyCastleProvider.PROVIDER_NAME
+        )
         messageDigest.reset()
         messageDigest.update(input.toByteArray())
         val bytes = messageDigest.digest()
