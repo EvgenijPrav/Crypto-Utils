@@ -8,7 +8,12 @@ import javax.crypto.spec.PBEKeySpec
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class ByteKeyGenerator(private val salt: String = DEFAULT_SALT) {
+class ByteKeyGenerator(
+    private val keySpecification: AesKeySpecification,
+    private val salt: String
+) {
+
+    constructor(keySpecification: AesKeySpecification) : this(keySpecification, DEFAULT_SALT)
 
     private companion object {
         private const val LOG_TAG = "ByteKeyGenerator"
@@ -21,7 +26,7 @@ class ByteKeyGenerator(private val salt: String = DEFAULT_SALT) {
             Log.w(LOG_TAG, "Please specify custom salt to increase security")
         }
         val factory = SecretKeyFactory.getInstance(ALGORITHM)
-        val keySpec = PBEKeySpec(key.toCharArray(), salt.toByteArray(), 2048, 256)
+        val keySpec = PBEKeySpec(key.toCharArray(), salt.toByteArray(), 2048, keySpecification.length)
         val keyByte = factory.generateSecret(keySpec)
         return keyByte.encoded
     }
