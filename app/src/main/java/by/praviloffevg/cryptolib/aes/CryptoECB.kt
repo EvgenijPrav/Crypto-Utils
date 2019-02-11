@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptolib.aes
 
+import android.annotation.SuppressLint
 import android.util.Base64
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
@@ -19,11 +20,11 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
     )
 
     private companion object {
-        private const val CYPHER = "AES/EBC/PKCS5padding"
+        private const val CYPHER = "AES/ECB/PKCS5padding"
         private const val ALGORITHM = "AES"
     }
 
-    private val ivParameterSpec = IvParameterSpec(iv)
+    @SuppressLint("GetInstance")
     private val cipher = Cipher.getInstance(CYPHER)
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
@@ -32,7 +33,7 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
 
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
 
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec)
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec)
         try {
             val encryptedData = cipher.doFinal(textToEncrypt)
             return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
@@ -52,7 +53,7 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
 
         try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
             return cipher.doFinal(Base64.decode(decryptedText, Base64.NO_CLOSE))
         } catch (e: Exception) {
             throw e
@@ -65,7 +66,7 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
 
         try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
             return String(cipher.doFinal(Base64.decode(decryptedText, Base64.NO_CLOSE)))
         } catch (e: Exception) {
             throw e
