@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib
+package by.praviloffevg.cryptolib.aes
 
 import android.util.Base64
 import javax.crypto.BadPaddingException
@@ -7,20 +7,19 @@ import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
+class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
 
-// Created by Yauheni Pravilau on 01.02.2019.
-// Copyright (c) 2019 . All rights reserved.
-
-class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
-
-    constructor(byteKeyGenerator: ByteKeyGenerator) : this(byteKeyGenerator, byteArrayOf(
+    constructor(byteKeyGenerator: ByteKeyGenerator) : this(
+        byteKeyGenerator, byteArrayOf(
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00))
+            0x00, 0x00, 0x00, 0x00
+        )
+    )
 
     private companion object {
-        private const val CYPHER = "AES/CBC/PKCS5padding"
+        private const val CYPHER = "AES/EBC/PKCS5padding"
         private const val ALGORITHM = "AES"
     }
 
