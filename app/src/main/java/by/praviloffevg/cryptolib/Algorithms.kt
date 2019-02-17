@@ -12,5 +12,6 @@ enum class Algorithms(val type: String) {
     SHA3_256("SHA3-256"),
     SHA3_384("SHA3-384"),
     SHA3_512("SHA3-512"),
-    @Deprecated("Avoid using MD5 for hashing") MD5("MD5")
+    @Deprecated("Avoid using MD5 for hashing") MD5("MD5"),
+    @Deprecated("Avoid using MD4 for hashing") MD4("MD4")
 }

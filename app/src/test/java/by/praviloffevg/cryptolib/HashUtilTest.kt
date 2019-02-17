@@ -353,6 +353,32 @@ class HashUtilTest {
             "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
             "e40bcdb9f4dd38f663e621fdb25ce38b",
             Algorithms.MD5
+        ),
+
+        arrayOf(
+            "First",
+            "6a24963c21e1d85de12b0fc9d5264f60",
+            Algorithms.MD4
+        ),
+        arrayOf(
+            "Quick setup",
+            "300ca01f37427b5a4d2a8064d29b6433",
+            Algorithms.MD4
+        ),
+        arrayOf(
+            "Empty",
+            "228244c4e74c7c4662f683bdecbe7807",
+            Algorithms.MD4
+        ),
+        arrayOf(
+            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
+            "044a65bc4017b31e99e79a8b7b1d2e39",
+            Algorithms.MD4
+        ),
+        arrayOf(
+            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
+            "704554a4761890f9e7a21f11d257546e",
+            Algorithms.MD4
         )
     )
 
@@ -368,7 +394,8 @@ class HashUtilTest {
         arrayOf(Algorithms.SHA3_256, 64),
         arrayOf(Algorithms.SHA3_384, 96),
         arrayOf(Algorithms.SHA3_512, 128),
-        arrayOf(Algorithms.MD5, 32)
+        arrayOf(Algorithms.MD5, 32),
+        arrayOf(Algorithms.MD4, 32)
     )
 
     fun getAlgorithms() = arrayOf(
@@ -383,7 +410,8 @@ class HashUtilTest {
         arrayOf(Algorithms.SHA3_256),
         arrayOf(Algorithms.SHA3_384),
         arrayOf(Algorithms.SHA3_512),
-        arrayOf(Algorithms.MD5)
+        arrayOf(Algorithms.MD5),
+        arrayOf(Algorithms.MD4)
     )
 
 }
