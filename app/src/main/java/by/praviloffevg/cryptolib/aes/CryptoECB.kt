@@ -5,19 +5,9 @@ import android.util.Base64
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
-import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
-
-    constructor(byteKeyGenerator: ByteKeyGenerator) : this(
-        byteKeyGenerator, byteArrayOf(
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00
-        )
-    )
+class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator) {
 
     private companion object {
         private const val CYPHER = "AES/ECB/PKCS5padding"
