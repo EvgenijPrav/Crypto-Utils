@@ -1,8 +1,6 @@
 package by.praviloffevg.cryptolib
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.MessageDigest
-import java.security.Security
 
 
 // Created by Yauheni Pravilau on 02.02.2019.
@@ -11,11 +9,7 @@ import java.security.Security
 object HashUtil {
 
     fun getHash(input: String, algorithm: Algorithms): String {
-        Security.addProvider(BouncyCastleProvider())
-        val messageDigest = MessageDigest.getInstance(
-            algorithm.type,
-            BouncyCastleProvider.PROVIDER_NAME
-        )
+        val messageDigest = MessageDigest.getInstance(algorithm.type)
         messageDigest.reset()
         messageDigest.update(input.toByteArray())
         val bytes = messageDigest.digest()

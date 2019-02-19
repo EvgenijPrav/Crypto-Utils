@@ -175,162 +175,6 @@ class HashUtilTest {
 
         arrayOf(
             "First",
-            "6a0000f1e2ceec3083ad6e14ec7bd2412f35e1ba51f4cf9208e05d4c",
-            Algorithms.SHA_512_224
-        ),
-        arrayOf(
-            "Quick setup",
-            "a9dc3d425bc1ab9ee9dbd18303d7c2d6554f97ea05d472289df351da",
-            Algorithms.SHA_512_224
-        ),
-        arrayOf(
-            "Empty",
-            "9289d7d85525c3cf45ac8ff77d697a4841072461c82991130ab1f1c1",
-            Algorithms.SHA_512_224
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "23142a445344d8350eebdc546ee6385c6abcdc7f53461dea722b6709",
-            Algorithms.SHA_512_224
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "17e99edbbd41ca8c22f89f3f37e884491f31e3d1c18326f2ef8165d2",
-            Algorithms.SHA_512_224
-        ),
-
-        arrayOf(
-            "First",
-            "383629a9b85a73f34a864d12cf2f456dd9b00169a5164272e762b0b802551874",
-            Algorithms.SHA_512_256
-        ),
-        arrayOf(
-            "Quick setup",
-            "ed3b7da0f9626a4fb4ec34d60fdb2fd377e1a9aff95427180a9ed7e5b010bfba",
-            Algorithms.SHA_512_256
-        ),
-        arrayOf(
-            "Empty",
-            "1e1ade9bc035951e0317f5e4fb6cb65e8d3388ca6dfbd1e5a8380d75dc1c695d",
-            Algorithms.SHA_512_256
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "1c572448178331d6799f156b7c2d2129210255105ebbf54c6ba20da95acfdd96",
-            Algorithms.SHA_512_256
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "11d1a6954b899af52021b4187971efa3ff0d4081431cfa0a84c4c8bfac253722",
-            Algorithms.SHA_512_256
-        ),
-
-        arrayOf(
-            "First",
-            "9717cdda6b7e1af5555bc0ec0caf2558b8e818cdabfb3a782a8740e8",
-            Algorithms.SHA3_224
-        ),
-        arrayOf(
-            "Quick setup",
-            "1108bb8ba4406f0e0f0d7eab8d7a42287b983d7f2b24368157783e55",
-            Algorithms.SHA3_224
-        ),
-        arrayOf(
-            "Empty",
-            "18fa71f22b163f5268ffecf8410acbb1d85399ad8295bc2e944364af",
-            Algorithms.SHA3_224
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "d4db73ac447293f0ff272038fa98cadf64a2bc610fd268936c2d6ffb",
-            Algorithms.SHA3_224
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "fafb2062dfa4c580ed1bdb7e783cb144b92a606dacadc5677fe7dbe0",
-            Algorithms.SHA3_224
-        ),
-
-        arrayOf(
-            "First",
-            "4ae1faec2a16ddc37231e4f9fbb7910bd2fa1c5c6b2641c2da53cf55548d2fff",
-            Algorithms.SHA3_256
-        ),
-        arrayOf(
-            "Quick setup",
-            "0bb800211c7936900011cff5643267cc631ea9fb67d631580fd2bd5ba42e3292",
-            Algorithms.SHA3_256
-        ),
-        arrayOf(
-            "Empty",
-            "f26e40c9abf4e9f4ef45aa69b30d795bf12c4586468c02801eb05efe45a05354",
-            Algorithms.SHA3_256
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "f35cc462ea2454ba463c03eb9cba6872438f4c523ece67e51c411f2944dc6884",
-            Algorithms.SHA3_256
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "08977e7d4700ae57e0cfcf493861df1945a92a594a1400bbf7e24df1ceca8689",
-            Algorithms.SHA3_256
-        ),
-
-        arrayOf(
-            "First",
-            "909265f301925befb70d9d8b51f732b4c941fafe0d978d097edea53a5957d41a41d58faeb39f971f9a33dd473b4aa732",
-            Algorithms.SHA3_384
-        ),
-        arrayOf(
-            "Quick setup",
-            "ceadcc1fd02084a3a57b5f34fb9dbbd352469c1e4c804055892492e5660624dd6c813e4418e9e8d2ba2d6d8ec413d2e6",
-            Algorithms.SHA3_384
-        ),
-        arrayOf(
-            "Empty",
-            "5e9efa63524d65568f86dd092e9434b05b3e5365b7aa74b84bbeca913776acf997b985b92a3c8b76edfe7393ccda6299",
-            Algorithms.SHA3_384
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "b1af5e164bd19bb364d90586e3124ced8732dfd2f355e4f02ed9f13ff18a22fe8209e011cd1f9e1c37f3de5d06587929",
-            Algorithms.SHA3_384
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "1511d1a3c74b37248c7272ad92d9dcf2f5bfe3d2394539096fb7c1252c80b1e496f205a5626701d7a88058641897ecf6",
-            Algorithms.SHA3_384
-        ),
-
-        arrayOf(
-            "First",
-            "3fbd09323dcce6f7f9b4d50499e825b7fa3defeb7890fe3a31f7f324a6c9abc7391073612e029874ba1cb2246b60883b22291a3be957380e110b228f59509bf1",
-            Algorithms.SHA3_512
-        ),
-        arrayOf(
-            "Quick setup",
-            "ccd163449047b5dcf11ff5cae1d556f4d1fa90fe245f583eaebc1d59beb4e82f92e7d95208cffb3fb51c8acfb68316f9163c5e7d45aae94698590b4c9e62721e",
-            Algorithms.SHA3_512
-        ),
-        arrayOf(
-            "Empty",
-            "424fe8585ff33ce8933db45d39f0b388db7c0d7f8c3438f747bd11d84c15c489c2d9f6c52e9d7ff25682484cfcc8941264cca38c7742114ea69624b530c154af",
-            Algorithms.SHA3_512
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "d27c40517657c98b1b9189c7df4cb1aa0c908c9a33c1e5f0f927ab0fc66acb273f9cebb834c6a4217e438c96d0f09a84405dc9a73055f45d4f7d57bc0bcf7098",
-            Algorithms.SHA3_512
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "f071be0c00b21a121ec2e87607fec77c37a6be632b82d4de8b73c9e95a55015a59698813655ce4caf3b9df1091dbd688c48d110f04421be8d0f564aaf0036cf7",
-            Algorithms.SHA3_512
-        ),
-
-        arrayOf(
-            "First",
             "7fb55ed0b7a30342ba6da306428cae04",
             Algorithms.MD5
         ),
@@ -353,32 +197,6 @@ class HashUtilTest {
             "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
             "e40bcdb9f4dd38f663e621fdb25ce38b",
             Algorithms.MD5
-        ),
-
-        arrayOf(
-            "First",
-            "6a24963c21e1d85de12b0fc9d5264f60",
-            Algorithms.MD4
-        ),
-        arrayOf(
-            "Quick setup",
-            "300ca01f37427b5a4d2a8064d29b6433",
-            Algorithms.MD4
-        ),
-        arrayOf(
-            "Empty",
-            "228244c4e74c7c4662f683bdecbe7807",
-            Algorithms.MD4
-        ),
-        arrayOf(
-            "Don't miss out on any of 2018's biggest innovations. Take a look back at some of the year's highlights.",
-            "044a65bc4017b31e99e79a8b7b1d2e39",
-            Algorithms.MD4
-        ),
-        arrayOf(
-            "Android's new app publishing format means a smaller app for your users and a more-efficient release process for you. Also deliver dynamic features on demand with modularization and increase discovery with Google Play Instant.",
-            "704554a4761890f9e7a21f11d257546e",
-            Algorithms.MD4
         )
     )
 
@@ -388,14 +206,7 @@ class HashUtilTest {
         arrayOf(Algorithms.SHA_256, 64),
         arrayOf(Algorithms.SHA_384, 96),
         arrayOf(Algorithms.SHA_512, 128),
-        arrayOf(Algorithms.SHA_512_224, 56),
-        arrayOf(Algorithms.SHA_512_256, 64),
-        arrayOf(Algorithms.SHA3_224, 56),
-        arrayOf(Algorithms.SHA3_256, 64),
-        arrayOf(Algorithms.SHA3_384, 96),
-        arrayOf(Algorithms.SHA3_512, 128),
-        arrayOf(Algorithms.MD5, 32),
-        arrayOf(Algorithms.MD4, 32)
+        arrayOf(Algorithms.MD5, 32)
     )
 
     fun getAlgorithms() = arrayOf(
@@ -404,14 +215,7 @@ class HashUtilTest {
         arrayOf(Algorithms.SHA_256),
         arrayOf(Algorithms.SHA_384),
         arrayOf(Algorithms.SHA_512),
-        arrayOf(Algorithms.SHA_512_224),
-        arrayOf(Algorithms.SHA_512_256),
-        arrayOf(Algorithms.SHA3_224),
-        arrayOf(Algorithms.SHA3_256),
-        arrayOf(Algorithms.SHA3_384),
-        arrayOf(Algorithms.SHA3_512),
-        arrayOf(Algorithms.MD5),
-        arrayOf(Algorithms.MD4)
+        arrayOf(Algorithms.MD5)
     )
 
 }
