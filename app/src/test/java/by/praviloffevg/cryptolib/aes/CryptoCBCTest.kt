@@ -1,7 +1,6 @@
 package by.praviloffevg.cryptolib.aes
 
 import assertk.assert
-import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,7 +13,7 @@ class CryptoCBCTest {
     private val key = "key"
 
     private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES256)
-    private val cryptoCbc= CryptoCBC(byteKeyGenerator)
+    private val cryptoCbc = CryptoCBC(byteKeyGenerator)
 
     @Test
     fun shouldEncryptAndDecryptIntoStringGivenString() {

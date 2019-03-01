@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptolib.aes
 
+import assertk.assert
 import assertk.assertions.isEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +20,7 @@ class CryptoECBTest {
 
         val decryptedString = cryptoEcb.decryptIntoString(encryptedString, key)
 
-        assertk.assert(decryptedString).isEqualTo(initialString)
+        assert(decryptedString).isEqualTo(initialString)
     }
 
     @Test
@@ -28,7 +29,7 @@ class CryptoECBTest {
 
         val decryptedString = cryptoEcb.decryptIntoString(encryptedString, key)
 
-        assertk.assert(decryptedString).isEqualTo(initialString)
+        assert(decryptedString).isEqualTo(initialString)
     }
 
     @Test
@@ -37,7 +38,7 @@ class CryptoECBTest {
 
         val decrypted = cryptoEcb.decryptIntoByteArray(encryptedString, key)
 
-        assertk.assert(String(decrypted)).isEqualTo(initialString)
+        assert(String(decrypted)).isEqualTo(initialString)
     }
 
     @Test
@@ -46,7 +47,7 @@ class CryptoECBTest {
 
         val decrypted = cryptoEcb.decryptIntoByteArray(encryptedString, key)
 
-        assertk.assert(String(decrypted)).isEqualTo(initialString)
+        assert(String(decrypted)).isEqualTo(initialString)
     }
 
     @Test
@@ -55,6 +56,6 @@ class CryptoECBTest {
 
         val encryptedString = cryptoEcb.encrypt(initialString, key)
 
-        assertk.assert(encryptedString).isEqualTo(expectedString)
+        assert(encryptedString).isEqualTo(expectedString)
     }
 }
