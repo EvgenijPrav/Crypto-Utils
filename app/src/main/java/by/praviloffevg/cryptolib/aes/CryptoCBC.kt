@@ -1,6 +1,7 @@
 package by.praviloffevg.cryptolib.aes
 
 import android.util.Base64
+import java.lang.IllegalArgumentException
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
@@ -18,6 +19,12 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00))
+
+    init {
+        if (iv.size != 16) {
+            throw IllegalArgumentException("IV must be 16 bytes long")
+        }
+    }
 
     private companion object {
         private const val CYPHER = "AES/CBC/PKCS5padding"
