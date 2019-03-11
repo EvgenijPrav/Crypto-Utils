@@ -19,7 +19,7 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.NoSuchPaddingException
 import javax.security.auth.x500.X500Principal
 
-class RsaProvider(private val context: Context, private val keyProperties: KeyProperties) {
+class RsaProvider internal constructor(private val context: Context, private val keyProperties: KeyProperties) {
 
     private companion object {
         private const val TAG = "RsaProvider"
@@ -57,7 +57,11 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
 
     private fun isKeyExist() = keyStore.containsAlias(keyProperties.keyAlias)
 
-    fun isKeyExpired(): Boolean {
+    @Throws(KeyValidationException::class)
+    internal fun isKeyExpired(): Boolean {
+        if (!isKeyExist()) {
+            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_NOT_FOUND, "Key not found")
+        }
         val certificate = keyStore.getCertificate(keyProperties.keyAlias) as X509Certificate
         val expirationDate = certificate.notAfter
         val creationDate = certificate.notBefore
@@ -65,7 +69,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         return expirationDate.time < System.currentTimeMillis() || creationDate.time > System.currentTimeMillis()
     }
 
-    fun createNewKeys() {
+    internal fun createNewKeys() {
         Log.d(TAG, "Creating new key")
         val x500Name = "CN=${keyProperties.keyOwnerName}, O=${keyProperties.keyOrganizationName}"
         val startDate = Calendar.getInstance()
@@ -94,11 +98,11 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         UnrecoverableEntryException::class,
         InvalidKeyException::class,
         IOException::class,
-        CertificateIsNotValidException::class
+        KeyValidationException::class
     )
-    fun encrypt(messageToEncrypt: String): String {
+    internal fun encrypt(messageToEncrypt: String): String {
         if (isKeyExpired()) {
-            throw CertificateIsNotValidException("Key expired")
+            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
         val cipher: Cipher
         try {
@@ -137,7 +141,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         UnrecoverableEntryException::class,
         KeyStoreException::class
     )
-    fun getPublicKey(): PublicKey {
+    internal fun getPublicKey(): PublicKey {
         val publicKey: PublicKey
         try {
             publicKey = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -165,11 +169,11 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         InvalidKeyException::class,
         KeyStoreException::class,
         UnrecoverableEntryException::class,
-        CertificateIsNotValidException::class
+        KeyValidationException::class
     )
-    fun decrypt(decryptedMessage: String): String {
+    internal fun decrypt(decryptedMessage: String): String {
         if (isKeyExpired()) {
-            throw CertificateIsNotValidException("Key expired")
+            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
         val cipher: Cipher
         try {
@@ -241,7 +245,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         return privateKey
     }
 
-    fun deleteKey() {
+    internal fun deleteKey() {
         if (isKeyExist()) {
             Log.d(TAG, "Key exists, deleting the key")
             keyStore.deleteEntry(keyProperties.keyAlias)
