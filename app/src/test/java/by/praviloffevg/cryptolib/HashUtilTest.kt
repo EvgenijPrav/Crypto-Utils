@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 // Created by Yauheni Pravilau on 03.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
+@Suppress("DEPRECATION")
 @RunWith(JUnitParamsRunner::class)
 class HashUtilTest {
 
