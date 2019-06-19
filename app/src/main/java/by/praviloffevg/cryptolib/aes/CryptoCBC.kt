@@ -8,7 +8,6 @@ import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
@@ -21,7 +20,8 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
             0x00, 0x00, 0x00, 0x00))
 
     init {
-        if (iv.size != 16) {
+        val defaultIVSize = 16
+        if (iv.size != defaultIVSize) {
             throw IllegalArgumentException("IV must be 16 bytes long")
         }
     }

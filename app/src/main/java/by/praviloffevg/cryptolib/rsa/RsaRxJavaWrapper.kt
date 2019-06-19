@@ -7,7 +7,6 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.security.PublicKey
 
-
 // Created by Yauheni Pravilau on 12.03.2019.
 // Copyright (c) 2019 . All rights reserved.
 

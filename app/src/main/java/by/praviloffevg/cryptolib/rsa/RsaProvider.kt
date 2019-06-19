@@ -104,33 +104,14 @@ class RsaProvider internal constructor(private val context: Context, private val
         if (isKeyExpired()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
-        val cipher: Cipher
-        try {
-            val publicKey = getPublicKey()
-            cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
-            cipher.init(Cipher.ENCRYPT_MODE, publicKey)
-        } catch (e: KeyStoreException) {
-            throw KeyStoreException(e)
-        } catch (e: NoSuchAlgorithmException) {
-            throw NoSuchAlgorithmException(e)
-        } catch (e: UnrecoverableEntryException) {
-            throw UnrecoverableEntryException(e.message)
-        } catch (e: InvalidKeyException) {
-            throw InvalidKeyException(e)
-        } catch (e: NoSuchPaddingException) {
-            throw NoSuchPaddingException(e.message)
-        } catch (e: NoSuchProviderException) {
-            throw NoSuchProviderException(e.message)
-        }
+        val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
+        val publicKey = getPublicKey()
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
         val outputStream = ByteArrayOutputStream()
-        try {
-            val cipherOutputStream = CipherOutputStream(outputStream, cipher)
-            cipherOutputStream.write(messageToEncrypt.toByteArray(StandardCharsets.UTF_8))
-            cipherOutputStream.close()
-        } catch (e: IOException) {
-            throw IOException(e)
-        }
+        val cipherOutputStream = CipherOutputStream(outputStream, cipher)
+        cipherOutputStream.write(messageToEncrypt.toByteArray(StandardCharsets.UTF_8))
+        cipherOutputStream.close()
 
         val outputBytes = outputStream.toByteArray()
         return Base64.encodeToString(outputBytes, Base64.DEFAULT)
@@ -142,23 +123,13 @@ class RsaProvider internal constructor(private val context: Context, private val
         KeyStoreException::class
     )
     internal fun getPublicKey(): PublicKey {
-        val publicKey: PublicKey
-        try {
-            publicKey = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                keyStore.getCertificate(keyProperties.keyAlias).publicKey
-            } else {
-                val privateKeyEntry = keyStore.getEntry(keyProperties.keyAlias, null)
-                        as KeyStore.PrivateKeyEntry
-                privateKeyEntry.certificate.publicKey
-            }
-        } catch (e: KeyStoreException) {
-            throw KeyStoreException(e)
-        } catch (e: NoSuchAlgorithmException) {
-            throw NoSuchAlgorithmException(e)
-        } catch (e: UnrecoverableEntryException) {
-            throw UnrecoverableEntryException(e.message)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            keyStore.getCertificate(keyProperties.keyAlias).publicKey
+        } else {
+            val privateKeyEntry = keyStore.getEntry(keyProperties.keyAlias, null)
+                    as KeyStore.PrivateKeyEntry
+            privateKeyEntry.certificate.publicKey
         }
-        return publicKey
     }
 
     @Throws(
@@ -175,40 +146,21 @@ class RsaProvider internal constructor(private val context: Context, private val
         if (isKeyExpired()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
-        val cipher: Cipher
-        try {
-            val privateKey = getPrivateKey()
-            cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
-            cipher.init(Cipher.DECRYPT_MODE, privateKey)
-        } catch (e: KeyStoreException) {
-            throw KeyStoreException(e)
-        } catch (e: NoSuchAlgorithmException) {
-            throw NoSuchAlgorithmException(e)
-        } catch (e: UnrecoverableEntryException) {
-            throw UnrecoverableEntryException(e.message)
-        } catch (e: InvalidKeyException) {
-            throw InvalidKeyException(e)
-        } catch (e: NoSuchPaddingException) {
-            throw NoSuchPaddingException(e.message)
-        } catch (e: NoSuchProviderException) {
-            throw NoSuchProviderException(e.message)
-        }
+        val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
+        val privateKey = getPrivateKey()
+        cipher.init(Cipher.DECRYPT_MODE, privateKey)
 
         val byteArrayInputStream = ByteArrayInputStream(Base64.decode(decryptedMessage, Base64.DEFAULT))
         val cipherInputStream = CipherInputStream(byteArrayInputStream, cipher)
         val values = ArrayList<Byte>()
         var nextBytes: Int
-        try {
-            while (cipherInputStream.read()
-                    .let {
-                        nextBytes = it
-                        it != -1
-                    }
-            ) {
-                values.add(nextBytes.toByte())
-            }
-        } catch (e: IOException) {
-            throw IOException(e)
+        while (cipherInputStream.read()
+                .let {
+                    nextBytes = it
+                    it != -1
+                }
+        ) {
+            values.add(nextBytes.toByte())
         }
         val bytes = ByteArray(values.size)
         for (i in bytes.indices) {
@@ -224,25 +176,14 @@ class RsaProvider internal constructor(private val context: Context, private val
         KeyStoreException::class
     )
     private fun getPrivateKey(): PrivateKey {
-        val privateKey: PrivateKey
-        try {
-            privateKey = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                keyStore.getKey(keyProperties.keyAlias, null)
-                        as PrivateKey
-            } else {
-                val privateKeyEntry = keyStore.getEntry(keyProperties.keyAlias, null)
-                        as KeyStore.PrivateKeyEntry
-                privateKeyEntry.privateKey
-            }
-        } catch (e: KeyStoreException) {
-            throw KeyStoreException(e)
-        } catch (e: NoSuchAlgorithmException) {
-            throw NoSuchAlgorithmException(e)
-        } catch (e: UnrecoverableEntryException) {
-            throw UnrecoverableEntryException(e.message)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            keyStore.getKey(keyProperties.keyAlias, null)
+                    as PrivateKey
+        } else {
+            val privateKeyEntry = keyStore.getEntry(keyProperties.keyAlias, null)
+                    as KeyStore.PrivateKeyEntry
+            privateKeyEntry.privateKey
         }
-
-        return privateKey
     }
 
     internal fun deleteKey() {

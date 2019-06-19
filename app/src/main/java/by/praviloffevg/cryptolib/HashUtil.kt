@@ -2,7 +2,6 @@ package by.praviloffevg.cryptolib
 
 import java.security.MessageDigest
 
-
 // Created by Yauheni Pravilau on 02.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
