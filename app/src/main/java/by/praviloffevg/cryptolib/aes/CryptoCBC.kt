@@ -20,8 +20,7 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
             0x00, 0x00, 0x00, 0x00))
 
     init {
-        val defaultIVSize = 16
-        if (iv.size != defaultIVSize) {
+        if (iv.size != DEFAULT_IV_SIZE) {
             throw IllegalArgumentException("IV must be 16 bytes long")
         }
     }
@@ -29,6 +28,7 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
     private companion object {
         private const val CYPHER = "AES/CBC/PKCS5padding"
         private const val ALGORITHM = "AES"
+        private const val DEFAULT_IV_SIZE = 16
     }
 
     private val ivParameterSpec = IvParameterSpec(iv)

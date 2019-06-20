@@ -19,7 +19,9 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.NoSuchPaddingException
 import javax.security.auth.x500.X500Principal
 
-class RsaProvider internal constructor(private val context: Context, private val keyProperties: KeyProperties) {
+class RsaProvider internal constructor(
+    private val context: Context,
+    private val keyProperties: KeyProperties) {
 
     private companion object {
         private const val TAG = "RsaProvider"
@@ -66,7 +68,8 @@ class RsaProvider internal constructor(private val context: Context, private val
         val expirationDate = certificate.notAfter
         val creationDate = certificate.notBefore
 
-        return expirationDate.time < System.currentTimeMillis() || creationDate.time > System.currentTimeMillis()
+        return expirationDate.time < System.currentTimeMillis()
+                || creationDate.time > System.currentTimeMillis()
     }
 
     internal fun createNewKeys() {

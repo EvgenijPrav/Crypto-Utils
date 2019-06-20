@@ -12,14 +12,14 @@ class ByteKeyGenerator(
     private val salt: String
 ) {
 
-    constructor(keySpecification: AesKeySpecification) : this(keySpecification,
-        DEFAULT_SALT
-    )
+    constructor(keySpecification: AesKeySpecification)
+            : this(keySpecification, DEFAULT_SALT)
 
     private companion object {
         private const val LOG_TAG = "ByteKeyGenerator"
         private const val ALGORITHM = "PBKDF2WithHmacSHA1"
         private const val DEFAULT_SALT = "Default salt"
+        private const val ITERATION_COUNT = 2048
     }
 
     internal fun hmacsha1(key: String): ByteArray {
@@ -27,7 +27,12 @@ class ByteKeyGenerator(
             Log.w(LOG_TAG, "Please specify custom salt to increase security")
         }
         val factory = SecretKeyFactory.getInstance(ALGORITHM)
-        val keySpec = PBEKeySpec(key.toCharArray(), salt.toByteArray(), 2048, keySpecification.length)
+        val keySpec = PBEKeySpec(
+            key.toCharArray(),
+            salt.toByteArray(),
+            ITERATION_COUNT,
+            keySpecification.length
+        )
         val keyByte = factory.generateSecret(keySpec)
         return keyByte.encoded
     }
