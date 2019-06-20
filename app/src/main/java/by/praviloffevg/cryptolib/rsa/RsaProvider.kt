@@ -21,7 +21,8 @@ import javax.security.auth.x500.X500Principal
 
 class RsaProvider internal constructor(
     private val context: Context,
-    private val keyProperties: KeyProperties) {
+    private val keyProperties: KeyProperties
+) {
 
     private companion object {
         private const val TAG = "RsaProvider"
