@@ -36,10 +36,10 @@ workflows:
   commit:
     jobs:
       - build
-  nightly:
+  scheduled-build:
     triggers:
       - schedule:
-          cron: "0 0 * * *"
+          cron: "* * * * *"
           filters:
             branches:
               only:
