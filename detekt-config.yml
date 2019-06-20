@@ -20,7 +20,7 @@ test-pattern: # Configure exclusions for test sources
     - TooManyFunctions
 
 build:
-  maxIssues: 20
+  maxIssues: 15
   weights:
     complexity: 2
     formatting: 1
@@ -168,7 +168,7 @@ complexity:
   active: true
   LongMethod:
     active: true
-    threshold: 20
+    threshold: 30
   NestedBlockDepth:
     active: true
     threshold: 4
@@ -177,7 +177,7 @@ complexity:
     threshold: 15
   LargeClass:
     active: true
-    threshold: 120
+    threshold: 150
   ComplexInterface:
     active: true
     threshold: 10
@@ -251,21 +251,21 @@ style:
   MagicNumber:
     active: true
     ignoreNumbers: '-1,0,1,2'
-    ignoreHashCodeFunction: false
+    ignoreHashCodeFunction: true
     ignorePropertyDeclaration: false
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
     ignoreAnnotation: false
     ignoreNamedArgument: true
-    ignoreEnums: false
+    ignoreEnums: true
   WildcardImport:
     active: true
-    excludeImports: 'java.util.*,kotlinx.android.synthetic.*'
+    excludeImports: 'java.util.*,kotlinx.android.synthetic.*,java.security.*'
   SafeCast:
     active: true
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 110
     excludePackageStatements: false
     excludeImportStatements: true
   PackageNaming:
