@@ -1,7 +1,6 @@
 package by.praviloffevg.cryptolib.aes
 
 import android.util.Base64
-import java.lang.IllegalArgumentException
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
@@ -13,11 +12,14 @@ import javax.crypto.spec.SecretKeySpec
 
 class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
 
-    constructor(byteKeyGenerator: ByteKeyGenerator) : this(byteKeyGenerator, byteArrayOf(
+    constructor(byteKeyGenerator: ByteKeyGenerator) : this(
+        byteKeyGenerator, byteArrayOf(
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00))
+            0x00, 0x00, 0x00, 0x00
+        )
+    )
 
     init {
         if (iv.size != DEFAULT_IV_SIZE) {
@@ -41,12 +43,8 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
 
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec)
-        try {
-            val encryptedData = cipher.doFinal(textToEncrypt)
-            return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
-        } catch (e: Exception) {
-            throw e
-        }
+        val encryptedData = cipher.doFinal(textToEncrypt)
+        return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
@@ -58,25 +56,15 @@ class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
     fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
-
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
-            return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
-        } catch (e: Exception) {
-            throw e
-        }
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
+        return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     fun decryptIntoString(textToDecrypt: String, key: String): String {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
-
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
-            return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
-        } catch (e: Exception) {
-            throw e
-        }
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
+        return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
     }
 }

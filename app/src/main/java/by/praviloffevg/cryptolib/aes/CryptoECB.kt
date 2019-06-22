@@ -24,12 +24,8 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator) {
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
 
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec)
-        try {
-            val encryptedData = cipher.doFinal(textToEncrypt)
-            return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
-        } catch (e: Exception) {
-            throw e
-        }
+        val encryptedData = cipher.doFinal(textToEncrypt)
+        return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
@@ -41,25 +37,15 @@ class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator) {
     fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
-
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
-            return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
-        } catch (e: Exception) {
-            throw e
-        }
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
+        return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     fun decryptIntoString(textToDecrypt: String, key: String): String {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         val secretKeySpec = SecretKeySpec(verifiedKey, ALGORITHM)
-
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
-            return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
-        } catch (e: Exception) {
-            throw e
-        }
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
+        return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
     }
 }
