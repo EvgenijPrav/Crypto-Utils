@@ -1,7 +1,9 @@
-package by.praviloffevg.cryptolib
+package by.praviloffevg.cryptolib.hash
 
 import assertk.assert
 import assertk.assertions.isEqualTo
+import by.praviloffevg.cryptolib.hash.Algorithms
+import by.praviloffevg.cryptolib.hash.HashUtil
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.junit.Test

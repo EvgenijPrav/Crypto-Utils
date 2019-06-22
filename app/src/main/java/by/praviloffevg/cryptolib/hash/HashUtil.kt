@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib
+package by.praviloffevg.cryptolib.hash
 
 import java.security.MessageDigest
 
@@ -18,7 +18,9 @@ object HashUtil {
         val bytes = messageDigest.digest()
         val sb = StringBuilder(bytes.size shl LEFT_SHIFT)
         for (aByte in bytes) {
-            sb.append(Character.forDigit(aByte.toInt() and 0xf0 shr RIGHT_SHIFT, RADIX))
+            sb.append(Character.forDigit(aByte.toInt() and 0xf0 shr RIGHT_SHIFT,
+                RADIX
+            ))
             sb.append(Character.forDigit((aByte.toInt() and 0x0f), RADIX))
         }
         return sb.toString()
