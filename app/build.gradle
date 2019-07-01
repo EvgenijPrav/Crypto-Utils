@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply from: 'jacoco.gradle'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -35,7 +37,7 @@ dependencies {
     testImplementation 'com.willowtreeapps.assertk:assertk:0.10'
     testImplementation "pl.pragmatists:JUnitParams:1.1.1"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC3"
-    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "org.robolectric:robolectric:3.2.1"
     testImplementation 'com.willowtreeapps.assertk:assertk:0.10'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
