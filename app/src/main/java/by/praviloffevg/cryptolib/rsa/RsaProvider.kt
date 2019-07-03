@@ -122,6 +122,32 @@ class RsaProvider internal constructor(
     }
 
     @Throws(
+        NoSuchPaddingException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchProviderException::class,
+        KeyStoreException::class,
+        UnrecoverableEntryException::class,
+        InvalidKeyException::class,
+        IOException::class,
+        KeyValidationException::class
+    )
+    internal fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey) : String {
+        if (isKeyExpired()) {
+            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
+        }
+        val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey)
+
+        val outputStream = ByteArrayOutputStream()
+        val cipherOutputStream = CipherOutputStream(outputStream, cipher)
+        cipherOutputStream.write(messageToEncrypt.toByteArray(StandardCharsets.UTF_8))
+        cipherOutputStream.close()
+
+        val outputBytes = outputStream.toByteArray()
+        return Base64.encodeToString(outputBytes, Base64.DEFAULT)
+    }
+
+    @Throws(
         NoSuchAlgorithmException::class,
         UnrecoverableEntryException::class,
         KeyStoreException::class

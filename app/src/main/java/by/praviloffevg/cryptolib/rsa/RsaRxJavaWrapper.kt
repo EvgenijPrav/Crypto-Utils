@@ -39,6 +39,12 @@ object RsaRxJavaWrapper {
             Single.just(rsaProvider.encrypt(messageToEncrypt))
                 .subscribeOn(computationScheduler)
 
+    fun encryptWithProvidedPublicKey(rsaProvider: RsaProvider,
+                                     messageToEncrypt: String,
+                                     publicKey: PublicKey): Single<String> =
+        Single.just(rsaProvider.encryptWithProvidedPublicKey(messageToEncrypt, publicKey))
+            .subscribeOn(computationScheduler)
+
     fun decrypt(rsaProvider: RsaProvider,decryptedMessage: String): Single<String> =
             Single.just(rsaProvider.decrypt(decryptedMessage))
                 .subscribeOn(computationScheduler)

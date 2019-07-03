@@ -59,6 +59,23 @@ object RsaCoroutinesWrapper {
 
     @WorkerThread
     @Throws(
+        NoSuchPaddingException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchProviderException::class,
+        KeyStoreException::class,
+        UnrecoverableEntryException::class,
+        InvalidKeyException::class,
+        IOException::class,
+        KeyValidationException::class
+    )
+    suspend fun encryptWithProvidedPublicKey(rsaProvider: RsaProvider,
+                                             messageToEncrypt: String,
+                                             publicKey: PublicKey): String = runBlocking {
+        rsaProvider.encryptWithProvidedPublicKey(messageToEncrypt, publicKey)
+    }
+
+    @WorkerThread
+    @Throws(
         IOException::class,
         NoSuchPaddingException::class,
         NoSuchAlgorithmException::class,
