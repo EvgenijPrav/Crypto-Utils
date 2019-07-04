@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package by.praviloffevg.cryptolib.rsa
 
 import androidx.test.InstrumentationRegistry
@@ -17,6 +19,8 @@ class RsaProviderTest {
     private val organizationName = "testOrganization"
     private val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
     private val context = InstrumentationRegistry.getTargetContext()
+    private val initialString = "initialString"
+    private val sleepThreshold = 10100L
 
     private lateinit var rsaProvider: RsaProvider
 
@@ -39,24 +43,40 @@ class RsaProviderTest {
 
     @Test
     fun shouldKeyBeExpiredWhenDurationPeriodPassed() {
-        Thread.sleep(10100)
+        Thread.sleep(sleepThreshold)
         val isExpired = rsaProvider.isKeyExpired()
 
         assertk.assert(isExpired).isEqualTo(true)
     }
 
     @Test
-    fun shouldReturnSameValueWhenEncryptedAndDecrypted() {
-        val initialString = "initialString"
+    fun shouldThrowExceptionWhenCheckingExpirationGivenKeyDeleted() {
+        rsaProvider.deleteKey()
 
+        try {
+            rsaProvider.isKeyExpired()
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
+                return
+            }
+        }
+        fail("Key has been deleted")
+    }
+
+    @Test
+    fun shouldReturnSameValueWhenEncryptedAndDecrypted() {
         val encryptedString = rsaProvider.encrypt(initialString)
 
         assertk.assert(rsaProvider.decrypt(encryptedString)).isEqualTo(initialString)
     }
 
+    @Test(expected = Exception::class)
+    fun shouldThrowExceptionWhenDecryptingGivenWrongInputParameter() {
+        rsaProvider.decrypt(initialString)
+    }
+
     @Test
     fun shouldReturnSameValueWhenEncryptedAndDecryptedGivenProvidedPublicKey() {
-        val initialString = "initialString"
         val publicKey = rsaProvider.getPublicKey()
 
         val encryptedString = rsaProvider.encryptWithProvidedPublicKey(initialString, publicKey)
@@ -65,14 +85,108 @@ class RsaProviderTest {
     }
 
     @Test
-    fun shouldThrowExceptionWhenEncryptedAndDecryptedDurationPeriodPassed() {
-        val initialString = "initialString"
-        Thread.sleep(10100)
+    fun shouldThrowExceptionWhenEncryptingGivenDurationPeriodPassed() {
+        Thread.sleep(sleepThreshold)
+
         try {
             rsaProvider.encrypt(initialString)
-        } catch (e: Exception) {
-            return
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_EXPIRED)
+                return
         }
         fail("Exception hadn't been thrown")
     }
+
+    @Test
+    fun shouldThrowExceptionWhenDecryptingGivenDurationPeriodPassed() {
+        val encrypted = rsaProvider.encrypt(initialString)
+        Thread.sleep(sleepThreshold)
+
+        try {
+            rsaProvider.decrypt(encrypted)
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_EXPIRED)
+                return
+        }
+        fail("Exception hadn't been thrown")
+    }
+
+    @Test(expected = Exception::class)
+    fun shouldThrowExceptionWhenDecryptingGivenEncryptedWithAnotherPublicKey() {
+        val keyAlias = "anotherKey"
+        val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
+        val rsa = RsaProvider(context, keyProperties)
+        val publicKey = rsa.getPublicKey()
+        val encrypted = rsaProvider.encryptWithProvidedPublicKey(initialString, publicKey)
+
+        rsaProvider.decrypt(encrypted)
+    }
+
+    @Test
+    fun shouldThrowExceptionWhenEncryptingGivenKeyDeleted() {
+        rsaProvider.deleteKey()
+
+        try {
+            rsaProvider.encrypt(initialString)
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
+                return
+            }
+        }
+        fail("Key has been deleted")
+    }
+
+    @Test
+    fun shouldThrowExceptionWhenDecryptingGivenKeyDeleted() {
+        val encrypted = rsaProvider.encrypt(initialString)
+        rsaProvider.deleteKey()
+
+        try {
+            rsaProvider.decrypt(encrypted)
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
+                return
+            }
+        }
+        fail("Key has been deleted")
+    }
+
+    @Test
+    fun shouldNotThrowExceptionWhenEncryptingGivenKeyDeletedAndCreatedNew() {
+        rsaProvider.deleteKey()
+        rsaProvider.createNewKeys()
+
+        try {
+            rsaProvider.encrypt(initialString)
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
+                fail("Key should exist")
+            }
+        }
+    }
+
+    @Test
+    fun shouldNotThrowExceptionWhenEncryptingGivenOldKeyDurationPeriodPassedAndKeyDeletedAndCreatedNew() {
+        Thread.sleep(sleepThreshold)
+        rsaProvider.deleteKey()
+        rsaProvider.createNewKeys()
+
+        try {
+            rsaProvider.encrypt(initialString)
+        } catch (e: KeyValidationException) {
+            if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
+                fail("Key should exist")
+            }
+        }
+    }
+
+    @Test(expected = Exception::class)
+    fun shouldThrowExceptionWhenDecryptingGivenKeyDeletedAndCreatedNew() {
+        val encrypted = rsaProvider.encrypt(initialString)
+        rsaProvider.deleteKey()
+        rsaProvider.createNewKeys()
+
+        rsaProvider.decrypt(encrypted)
+    }
+
 }
