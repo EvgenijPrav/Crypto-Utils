@@ -41,18 +41,20 @@ object RsaRxJavaWrapper {
 
     @WorkerThread
     fun encrypt(rsaProvider: RsaProvider, messageToEncrypt: String): Single<String> =
-            Single.just(rsaProvider.encrypt(messageToEncrypt))
-                .subscribeOn(Schedulers.computation())
+        Single.just(rsaProvider.encrypt(messageToEncrypt))
+            .subscribeOn(Schedulers.computation())
 
     @WorkerThread
-    fun encryptWithProvidedPublicKey(rsaProvider: RsaProvider,
-                                     messageToEncrypt: String,
-                                     publicKey: PublicKey): Single<String> =
+    fun encryptWithProvidedPublicKey(
+        rsaProvider: RsaProvider,
+        messageToEncrypt: String,
+        publicKey: PublicKey
+    ): Single<String> =
         Single.just(rsaProvider.encryptWithProvidedPublicKey(messageToEncrypt, publicKey))
             .subscribeOn(Schedulers.computation())
 
     @WorkerThread
-    fun decrypt(rsaProvider: RsaProvider,decryptedMessage: String): Single<String> =
-            Single.just(rsaProvider.decrypt(decryptedMessage))
-                .subscribeOn(Schedulers.computation())
+    fun decrypt(rsaProvider: RsaProvider, decryptedMessage: String): Single<String> =
+        Single.just(rsaProvider.decrypt(decryptedMessage))
+            .subscribeOn(Schedulers.computation())
 }
