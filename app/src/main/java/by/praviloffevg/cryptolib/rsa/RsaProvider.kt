@@ -60,7 +60,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
     @Throws(KeyValidationException::class)
     fun isKeyExpired(): Boolean {
         if (!isKeyExist()) {
-            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_NOT_FOUND, "Key not found")
+            throw KeyValidationException(
+                KeyValidationException.ExceptionCode.KEY_NOT_FOUND,
+                "Key not found"
+            )
         }
         val certificate = keyStore.getCertificate(keyProperties.keyAlias) as X509Certificate
         val expirationDate = certificate.notAfter
@@ -103,7 +106,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
     )
     fun encrypt(messageToEncrypt: String): String {
         if (isKeyExpired()) {
-            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
+            throw KeyValidationException(
+                KeyValidationException.ExceptionCode.KEY_EXPIRED,
+                "Key expired"
+            )
         }
         val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
         val publicKey = getPublicKey()
@@ -130,7 +136,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
     )
     fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey): String {
         if (isKeyExpired()) {
-            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
+            throw KeyValidationException(
+                KeyValidationException.ExceptionCode.KEY_EXPIRED,
+                "Key expired"
+            )
         }
         val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
         cipher.init(Cipher.ENCRYPT_MODE, publicKey)
@@ -171,13 +180,21 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
     )
     fun decrypt(decryptedMessage: String): String {
         if (isKeyExpired()) {
-            throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
+            throw KeyValidationException(
+                KeyValidationException.ExceptionCode.KEY_EXPIRED,
+                "Key expired"
+            )
         }
         val cipher: Cipher = Cipher.getInstance(CIPHER_TYPE, cipherProvider)
         val privateKey = getPrivateKey()
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
 
-        val byteArrayInputStream = ByteArrayInputStream(Base64.decode(decryptedMessage, Base64.DEFAULT))
+        val byteArrayInputStream = ByteArrayInputStream(
+            Base64.decode(
+                decryptedMessage,
+                Base64.DEFAULT
+            )
+        )
         val cipherInputStream = CipherInputStream(byteArrayInputStream, cipher)
         val values = ArrayList<Byte>()
         var nextBytes: Int
@@ -193,7 +210,6 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         for (i in bytes.indices) {
             bytes[i] = values[i]
         }
-
         return String(bytes, 0, bytes.size, StandardCharsets.UTF_8)
     }
 
