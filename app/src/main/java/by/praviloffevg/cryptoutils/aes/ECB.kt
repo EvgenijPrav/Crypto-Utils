@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 import android.annotation.SuppressLint
 import android.util.Base64
@@ -7,7 +7,7 @@ import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.SecretKeySpec
 
-class CryptoECB(private val byteKeyGenerator: ByteKeyGenerator) {
+class ECB(private val byteKeyGenerator: ByteKeyGenerator) {
 
     private companion object {
         private const val CYPHER = "AES/ECB/PKCS5padding"

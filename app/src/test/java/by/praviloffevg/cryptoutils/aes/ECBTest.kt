@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 import assertk.assert
 import assertk.assertions.isEqualTo
@@ -8,14 +8,14 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(Enclosed::class)
-class CryptoECBTest {
+class ECBTest {
     @RunWith(RobolectricTestRunner::class)
-    class CryptoECBTestAes256 {
+    class ECBTestAes256 {
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES256)
-        private val cryptoEcb = CryptoECB(byteKeyGenerator)
+        private val cryptoEcb = ECB(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -64,12 +64,12 @@ class CryptoECBTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class CryptoECBTestAes192 {
+    class ECBTestAes192 {
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES192)
-        private val cryptoEcb = CryptoECB(byteKeyGenerator)
+        private val cryptoEcb = ECB(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -118,12 +118,12 @@ class CryptoECBTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class CryptoECBTestAes128 {
+    class ECBTestAes128 {
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES128)
-        private val cryptoEcb = CryptoECB(byteKeyGenerator)
+        private val cryptoEcb = ECB(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {

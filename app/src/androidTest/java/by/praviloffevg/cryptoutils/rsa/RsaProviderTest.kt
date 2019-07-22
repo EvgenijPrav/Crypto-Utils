@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package by.praviloffevg.cryptolib.rsa
+package by.praviloffevg.cryptoutils.rsa
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
