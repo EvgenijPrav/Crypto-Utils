@@ -19,10 +19,7 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.NoSuchPaddingException
 import javax.security.auth.x500.X500Principal
 
-class RsaProvider internal constructor(
-    private val context: Context,
-    private val keyProperties: KeyProperties
-) {
+class RsaProvider(private val context: Context, private val keyProperties: KeyProperties) {
 
     private companion object {
         private const val TAG = "RsaProvider"
@@ -61,7 +58,7 @@ class RsaProvider internal constructor(
     private fun isKeyExist() = keyStore.containsAlias(keyProperties.keyAlias)
 
     @Throws(KeyValidationException::class)
-    internal fun isKeyExpired(): Boolean {
+    fun isKeyExpired(): Boolean {
         if (!isKeyExist()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_NOT_FOUND, "Key not found")
         }
@@ -73,7 +70,7 @@ class RsaProvider internal constructor(
                 || creationDate.time > System.currentTimeMillis()
     }
 
-    internal fun createNewKeys() {
+    fun createNewKeys() {
         Log.d(TAG, "Creating new key")
         val x500Name = "CN=${keyProperties.keyOwnerName}, O=${keyProperties.keyOrganizationName}"
         val startDate = Calendar.getInstance()
@@ -104,7 +101,7 @@ class RsaProvider internal constructor(
         IOException::class,
         KeyValidationException::class
     )
-    internal fun encrypt(messageToEncrypt: String): String {
+    fun encrypt(messageToEncrypt: String): String {
         if (isKeyExpired()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
@@ -131,7 +128,7 @@ class RsaProvider internal constructor(
         IOException::class,
         KeyValidationException::class
     )
-    internal fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey) : String {
+    fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey): String {
         if (isKeyExpired()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
@@ -152,7 +149,7 @@ class RsaProvider internal constructor(
         UnrecoverableEntryException::class,
         KeyStoreException::class
     )
-    internal fun getPublicKey(): PublicKey {
+    fun getPublicKey(): PublicKey {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             keyStore.getCertificate(keyProperties.keyAlias).publicKey
         } else {
@@ -172,7 +169,7 @@ class RsaProvider internal constructor(
         UnrecoverableEntryException::class,
         KeyValidationException::class
     )
-    internal fun decrypt(decryptedMessage: String): String {
+    fun decrypt(decryptedMessage: String): String {
         if (isKeyExpired()) {
             throw KeyValidationException(KeyValidationException.ExceptionCode.KEY_EXPIRED, "Key expired")
         }
@@ -216,7 +213,7 @@ class RsaProvider internal constructor(
         }
     }
 
-    internal fun deleteKey() {
+    fun deleteKey() {
         if (isKeyExist()) {
             Log.d(TAG, "Key exists, deleting the key")
             keyStore.deleteEntry(keyProperties.keyAlias)
