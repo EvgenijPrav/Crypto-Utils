@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 
 // Created by Yauheni Pravilau on 09.02.2019.

@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 import android.util.Log
 import javax.crypto.SecretKeyFactory

@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 import android.util.Base64
 import javax.crypto.BadPaddingException
@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class CryptoCBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
+class CBC(private val byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
         byteKeyGenerator, byteArrayOf(

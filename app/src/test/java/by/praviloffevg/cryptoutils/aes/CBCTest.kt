@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.aes
+package by.praviloffevg.cryptoutils.aes
 
 import assertk.assert
 import assertk.assertions.isEqualTo
@@ -9,15 +9,15 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(Enclosed::class)
-class CryptoCBCTest {
+class CBCTest {
     @RunWith(RobolectricTestRunner::class)
-    class CryptoCBCTestAes256 {
+    class CBCTestAes256 {
 
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES256)
-        private val cryptoCbc = CryptoCBC(byteKeyGenerator)
+        private val cryptoCbc = CBC(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -72,7 +72,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4,
                 1, 2, 3, 4
             )
-            val encrypter = CryptoCBC(byteKeyGenerator, iv)
+            val encrypter = CBC(byteKeyGenerator, iv)
             val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
 
             val resultWithIV = encrypter.encrypt(initialString, key)
@@ -88,7 +88,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test(expected = IllegalArgumentException::class)
@@ -101,7 +101,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test
@@ -113,18 +113,18 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class CryptoCBCTestAes192 {
+    class CBCTestAes192 {
 
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES192)
-        private val cryptoCbc = CryptoCBC(byteKeyGenerator)
+        private val cryptoCbc = CBC(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -179,7 +179,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4,
                 1, 2, 3, 4
             )
-            val encrypter = CryptoCBC(byteKeyGenerator, iv)
+            val encrypter = CBC(byteKeyGenerator, iv)
             val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
 
             val resultWithIV = encrypter.encrypt(initialString, key)
@@ -195,7 +195,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test(expected = IllegalArgumentException::class)
@@ -208,7 +208,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test
@@ -220,18 +220,18 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class CryptoCBCTestAes128 {
+    class CBCTestAes128 {
 
         private val initialString = "initialString"
         private val key = "key"
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES128)
-        private val cryptoCbc = CryptoCBC(byteKeyGenerator)
+        private val cryptoCbc = CBC(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -286,7 +286,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4,
                 1, 2, 3, 4
             )
-            val encrypter = CryptoCBC(byteKeyGenerator, iv)
+            val encrypter = CBC(byteKeyGenerator, iv)
             val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
 
             val resultWithIV = encrypter.encrypt(initialString, key)
@@ -302,7 +302,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test(expected = IllegalArgumentException::class)
@@ -315,7 +315,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
 
         @Test
@@ -327,7 +327,7 @@ class CryptoCBCTest {
                 1, 2, 3, 4
             )
 
-            CryptoCBC(byteKeyGenerator, iv)
+            CBC(byteKeyGenerator, iv)
         }
     }
 }

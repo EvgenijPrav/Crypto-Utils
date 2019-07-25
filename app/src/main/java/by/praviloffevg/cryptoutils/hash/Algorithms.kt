@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.hash
+package by.praviloffevg.cryptoutils.hash
 
 enum class Algorithms(val type: String) {
     SHA1("SHA1"),

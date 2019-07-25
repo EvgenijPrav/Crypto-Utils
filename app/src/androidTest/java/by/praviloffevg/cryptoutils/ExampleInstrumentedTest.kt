@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib
+package by.praviloffevg.cryptoutils
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("by.praviloffevg.cryptolib.test", appContext.packageName)
+        assertEquals("by.praviloffevg.cryptoutils.test", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.hash
+package by.praviloffevg.cryptoutils.hash
 
 import java.security.MessageDigest
 

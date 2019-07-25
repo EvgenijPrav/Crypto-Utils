@@ -1,4 +1,4 @@
-package by.praviloffevg.cryptolib.rsa
+package by.praviloffevg.cryptoutils.rsa
 
 import java.util.*
 
