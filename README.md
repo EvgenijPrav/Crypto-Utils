@@ -51,7 +51,7 @@ It will allow to identify key owner.
 * `fun decrypt(decryptedMessage: String): String` - is used to decrypt data using private key from the keystore.
 * `fun deleteKey()` - is used to delete key pair. May be used if the keys are expired or have been compromised.
 ##### Important
-RSA related operations may reqiere a lot of time to execute, don't perform them on the main thread. To avoid using on the main thread presented `RsaRxJavaWrapper` class. Using this class all operations will be performed on computation thread (`Schedulers.computation()`)
+RSA related operations may reqiere a lot of time to execute, don't perform them on the main thread. To avoid using on the main thread presented `RsaRxJavaWrapper` class. Using this class you should pass `Scheduler` it should be subscribed on (default value is `Schedulers.computation()`)
 
 ## License
 
