@@ -25,8 +25,10 @@ object RsaRxJavaWrapper {
 
 
     @WorkerThread
-    fun generateNewKeyPair(rsaProvider: RsaProvider, scheduler: Scheduler = Schedulers.computation())
-            : Completable =
+    fun generateNewKeyPair(
+        rsaProvider: RsaProvider,
+        scheduler: Scheduler = Schedulers.computation()
+    ): Completable =
         Completable.fromAction { Single.just(rsaProvider.createNewKeys()) }
             .subscribeOn(scheduler)
 
