@@ -23,9 +23,9 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
-      - run:
-          name: Run Detekt
-          command: ./gradlew detekt
+#      - run:
+#          name: Run Detekt
+#          command: ./gradlew detekt
       - run:
           name: Generate Jacoco reports
           command: ./gradlew jacocoTestReport
