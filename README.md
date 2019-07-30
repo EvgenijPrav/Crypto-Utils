@@ -27,7 +27,7 @@ Then add this dependency to your app build.gradle file.
 `Algorithm` class contains supported hash algorithms (SHA1, SHA-224, SHA-256, SHA-384, SHA-512, MD5).
 
 ### AES
-`AES` package allows you to encrypt your data using 2 modes: ECB and CBC.
+`AES` package allows you to encrypt your data using 2 modes: `ECB` and `CBC`.
 If `CBC` is initialized without intialization vector (iv parameter in the constructor), it will work as `ECB`.
 Both classes require `ByteKeyGenerator` as a constructor prameter. To create it's instance you should specify `key specification` and `salt` (not mandatory parameter).
 Supported key specifications are: AES-128, AES-192 and AES-256.
