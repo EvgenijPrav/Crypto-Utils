@@ -3,11 +3,12 @@ package by.praviloffevg.cryptoutils.aes
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
+import javax.crypto.spec.IvParameterSpec
 
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : Aes(byteKeyGenerator, iv) {
+class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
         byteKeyGenerator, byteArrayOf(
@@ -19,33 +20,34 @@ class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : Aes(byteKeyGenera
     )
 
     init {
+        if (iv.size != DEFAULT_IV_SIZE) {
+            throw IllegalArgumentException("IV must be 16 bytes long")
+        }
         cipher = Cipher.getInstance(CYPHER)
     }
 
+    private val ivParameterSpec = IvParameterSpec(iv)
+
     private companion object {
         private const val CYPHER = "AES/CBC/PKCS5padding"
+        private const val DEFAULT_IV_SIZE = 16
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     override fun encrypt(textToEncrypt: ByteArray, key: String): String {
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
-        return super.encrypt(textToEncrypt, key)
-    }
-
-    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: String, key: String): String {
-        return encrypt(textToEncrypt.toByteArray(), key)
+        return super.encrypt(textToEncrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     override fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
-        return super.decryptIntoByteArray(textToDecrypt, key)
+        return super.decryptIntoByteArray(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     override fun decryptIntoString(textToDecrypt: String, key: String): String {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
-        return super.decryptIntoString(textToDecrypt, key)
+        return super.decryptIntoString(textToDecrypt)
     }
 }
