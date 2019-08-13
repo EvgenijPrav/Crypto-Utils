@@ -3,6 +3,7 @@ package by.praviloffevg.cryptoutils.aes
 import assertk.assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEqualTo
+import by.praviloffevg.cryptoutils.TestUtils.byteArrayOfInts
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
@@ -13,55 +14,55 @@ class CbcTest {
     @RunWith(RobolectricTestRunner::class)
     class CbcTestAes256 {
 
-        private val initialString = "initialString"
+        private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES256)
         private val cryptoCbc = Cbc(byteKeyGenerator)
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+        fun shouldEncryptAndDecryptGivenString() {
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+        fun shouldEncryptAndDecryptGivenByteArray() {
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncrypt() {
-            val expectedString = "R7TY6Qn2+bjknjuBWBuUJw==\n"
+            val expected = byteArrayOfInts(0x47, 0xB4, 0xD8, 0xE9, 0x09, 0xF6, 0xF9, 0xB8, 0xE4, 0x9E, 0x3B, 0x81, 0x58, 0x1B, 0x94, 0x27)
 
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            assert(encryptedString).isEqualTo(expectedString)
+            assert { encrypted.contentEquals(expected) }
         }
 
         @Test
@@ -73,9 +74,9 @@ class CbcTest {
                 1, 2, 3, 4
             )
             val encrypter = Cbc(byteKeyGenerator, iv)
-            val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
+            val resultWithoutIV = cryptoCbc.encrypt(initialValue, key)
 
-            val resultWithIV = encrypter.encrypt(initialString, key)
+            val resultWithIV = encrypter.encrypt(initialValue, key)
 
             assert(resultWithIV).isNotEqualTo(resultWithoutIV)
         }
@@ -120,55 +121,55 @@ class CbcTest {
     @RunWith(RobolectricTestRunner::class)
     class CbcTestAes192 {
 
-        private val initialString = "initialString"
+        private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES192)
         private val cryptoCbc = Cbc(byteKeyGenerator)
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+        fun shouldEncryptAndDecryptGivenString() {
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+        fun shouldEncryptAndDecryptGivenByteArray() {
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncrypt() {
-            val expectedString = "da6rIVWz5Mh4ubMMkEDo9A==\n"
+            val expected = byteArrayOfInts(0x75, 0xAE, 0xAB, 0x21, 0x55, 0xB3, 0xE4, 0xC8, 0x78, 0xB9, 0xB3, 0x0C, 0x90, 0x40, 0xE8, 0xF4)
 
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            assert(encryptedString).isEqualTo(expectedString)
+            assert { encrypted.contentEquals(expected) }
         }
 
         @Test
@@ -180,9 +181,9 @@ class CbcTest {
                 1, 2, 3, 4
             )
             val encrypter = Cbc(byteKeyGenerator, iv)
-            val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
+            val resultWithoutIV = cryptoCbc.encrypt(initialValue, key)
 
-            val resultWithIV = encrypter.encrypt(initialString, key)
+            val resultWithIV = encrypter.encrypt(initialValue, key)
 
             assert(resultWithIV).isNotEqualTo(resultWithoutIV)
         }
@@ -227,55 +228,55 @@ class CbcTest {
     @RunWith(RobolectricTestRunner::class)
     class CbcTestAes128 {
 
-        private val initialString = "initialString"
+        private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES128)
         private val cryptoCbc = Cbc(byteKeyGenerator)
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+        fun shouldEncryptAndDecryptGivenString() {
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
-        fun shouldEncryptAndDecryptIntoStringGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+        fun shouldEncryptAndDecryptGivenByteArray() {
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decryptedString = cryptoCbc.decryptIntoString(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoString(encrypted, key)
 
-            assert(decryptedString).isEqualTo(initialString)
+            assert(decrypted).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenString() {
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncryptAndDecryptIntoByteArrayGivenByteArray() {
-            val encryptedString = cryptoCbc.encrypt(initialString.toByteArray(), key)
+            val encrypted = cryptoCbc.encrypt(initialValue.toByteArray(), key)
 
-            val decrypted = cryptoCbc.decryptIntoByteArray(encryptedString, key)
+            val decrypted = cryptoCbc.decryptIntoByteArray(encrypted, key)
 
-            assert(String(decrypted)).isEqualTo(initialString)
+            assert(String(decrypted)).isEqualTo(initialValue)
         }
 
         @Test
         fun shouldEncrypt() {
-            val expectedString = "WiPtb2plEhxp9ujwGauuxw==\n"
+            val expected = byteArrayOfInts(0x5A, 0x23, 0xED, 0x6F, 0x6A, 0x65, 0x12, 0x1C, 0x69, 0xF6, 0xE8, 0xF0, 0x19, 0xAB, 0xAE, 0xC7)
 
-            val encryptedString = cryptoCbc.encrypt(initialString, key)
+            val encrypted = cryptoCbc.encrypt(initialValue, key)
 
-            assert(encryptedString).isEqualTo(expectedString)
+            assert { encrypted.contentEquals(expected) }
         }
 
         @Test
@@ -287,9 +288,9 @@ class CbcTest {
                 1, 2, 3, 4
             )
             val encrypter = Cbc(byteKeyGenerator, iv)
-            val resultWithoutIV = cryptoCbc.encrypt(initialString, key)
+            val resultWithoutIV = cryptoCbc.encrypt(initialValue, key)
 
-            val resultWithIV = encrypter.encrypt(initialString, key)
+            val resultWithIV = encrypter.encrypt(initialValue, key)
 
             assert(resultWithIV).isNotEqualTo(resultWithoutIV)
         }

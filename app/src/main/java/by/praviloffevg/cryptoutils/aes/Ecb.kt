@@ -15,19 +15,19 @@ class Ecb(byteKeyGenerator: ByteKeyGenerator) : AesImpl(byteKeyGenerator) {
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: ByteArray, key: CharArray): String {
+    override fun encrypt(textToEncrypt: ByteArray, key: CharArray): ByteArray {
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(key))
         return super.encrypt(textToEncrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoByteArray(textToDecrypt: String, key: CharArray): ByteArray {
+    override fun decryptIntoByteArray(textToDecrypt: ByteArray, key: CharArray): ByteArray {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key))
         return super.decryptIntoByteArray(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoString(textToDecrypt: String, key: CharArray): String {
+    override fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key))
         return super.decryptIntoString(textToDecrypt)
     }
