@@ -8,7 +8,7 @@ import javax.crypto.spec.IvParameterSpec
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
+class Cbc(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
         byteKeyGenerator, byteArrayOf(
@@ -34,19 +34,19 @@ class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGe
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: ByteArray, key: String): String {
+    override fun encrypt(textToEncrypt: ByteArray, key: CharArray): String {
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.encrypt(textToEncrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray {
+    override fun decryptIntoByteArray(textToDecrypt: String, key: CharArray): ByteArray {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.decryptIntoByteArray(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoString(textToDecrypt: String, key: String): String {
+    override fun decryptIntoString(textToDecrypt: String, key: CharArray): String {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.decryptIntoString(textToDecrypt)
     }

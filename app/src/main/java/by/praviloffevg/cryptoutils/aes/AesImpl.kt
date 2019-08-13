@@ -22,7 +22,7 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: String, key: String): String {
+    override fun encrypt(textToEncrypt: String, key: CharArray): String {
         return encrypt(textToEncrypt.toByteArray(), key)
     }
 
@@ -36,7 +36,7 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
         return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
     }
 
-    protected fun getSecretKeySpec(key: String): SecretKeySpec {
+    protected fun getSecretKeySpec(key: CharArray): SecretKeySpec {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         return SecretKeySpec(verifiedKey, ALGORITHM)
     }

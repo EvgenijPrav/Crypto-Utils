@@ -8,14 +8,14 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(Enclosed::class)
-class ECBTest {
+class EcbTest {
     @RunWith(RobolectricTestRunner::class)
-    class ECBTestAes256 {
+    class EcbTestAes256 {
         private val initialString = "initialString"
-        private val key = "key"
+        private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES256)
-        private val cryptoEcb = ECB(byteKeyGenerator)
+        private val cryptoEcb = Ecb(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -64,12 +64,12 @@ class ECBTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class ECBTestAes192 {
+    class EcbTestAes192 {
         private val initialString = "initialString"
-        private val key = "key"
+        private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES192)
-        private val cryptoEcb = ECB(byteKeyGenerator)
+        private val cryptoEcb = Ecb(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
@@ -118,12 +118,12 @@ class ECBTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class ECBTestAes128 {
+    class EcbTestAes128 {
         private val initialString = "initialString"
-        private val key = "key"
+        private val key = charArrayOf('k', 'e', 'y')
 
         private val byteKeyGenerator = ByteKeyGenerator(AesKeySpecification.AES128)
-        private val cryptoEcb = ECB(byteKeyGenerator)
+        private val cryptoEcb = Ecb(byteKeyGenerator)
 
         @Test
         fun shouldEncryptAndDecryptIntoStringGivenString() {
