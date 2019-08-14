@@ -42,10 +42,11 @@ workflows:
   scheduled-build:
     triggers:
       - schedule:
-          cron: "0 0 * * *"
+          cron: "20 22 * * *"
           filters:
             branches:
               only:
                 - master
+                - developement
     jobs:
       - build
