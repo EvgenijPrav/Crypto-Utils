@@ -47,5 +47,6 @@ workflows:
             branches:
               only:
                 - master
+                - development
     jobs:
       - build
