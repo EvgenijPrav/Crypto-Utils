@@ -1,8 +1,27 @@
 package by.praviloffevg.cryptoutils.aes
 
+import javax.crypto.BadPaddingException
+import javax.crypto.IllegalBlockSizeException
+
 interface Aes {
-    fun encrypt(textToEncrypt: ByteArray, key: String): String
-    fun encrypt(textToEncrypt: String, key: String): String
-    fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray
-    fun decryptIntoString(textToDecrypt: String, key: String): String
+
+    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
+    fun encrypt(textToEncrypt: ByteArray, key: CharArray): ByteArray
+
+    /**
+     * To increase security use [encrypt]
+     * and don't store sensitive data in [String] variables
+     */
+    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
+    fun encrypt(textToEncrypt: String, key: CharArray): ByteArray
+
+    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
+    fun decryptIntoByteArray(textToDecrypt: ByteArray, key: CharArray): ByteArray
+
+    /**
+     * To increase security use [decryptIntoByteArray]
+     * and don't store sensitive data in [String] variables
+     */
+    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
+    fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String
 }

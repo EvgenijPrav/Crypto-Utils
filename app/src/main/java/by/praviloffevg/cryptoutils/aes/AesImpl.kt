@@ -16,27 +16,26 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun encrypt(textToEncrypt: ByteArray): String {
-        val encryptedData = cipher.doFinal(textToEncrypt)
-        return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
+    fun encrypt(textToEncrypt: ByteArray): ByteArray {
+        return cipher.doFinal(textToEncrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: String, key: String): String {
+    override fun encrypt(textToEncrypt: String, key: CharArray): ByteArray {
         return encrypt(textToEncrypt.toByteArray(), key)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoByteArray(textToDecrypt: String): ByteArray {
-        return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
+    fun decryptIntoByteArray(textToDecrypt: ByteArray): ByteArray {
+        return cipher.doFinal(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoString(textToDecrypt: String): String {
-        return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
+    fun decryptIntoString(textToDecrypt: ByteArray): String {
+        return String(cipher.doFinal(textToDecrypt))
     }
 
-    protected fun getSecretKeySpec(key: String): SecretKeySpec {
+    protected fun getSecretKeySpec(key: CharArray): SecretKeySpec {
         val verifiedKey = byteKeyGenerator.hmacsha1(key)
         return SecretKeySpec(verifiedKey, ALGORITHM)
     }
