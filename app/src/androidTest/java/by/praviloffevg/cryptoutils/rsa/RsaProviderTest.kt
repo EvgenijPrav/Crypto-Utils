@@ -23,21 +23,21 @@ class RsaProviderTest {
     private val initialString = "initialString"
     private val sleepThreshold = 10100L
 
-    private lateinit var rsaProvider: RsaProvider
+    private lateinit var rsa: Rsa
 
     @Before
     fun setup() {
-        rsaProvider = RsaProvider(context, keyProperties)
+        rsa = RsaProvider(context, keyProperties)
     }
 
     @After
     fun dropKeys() {
-        rsaProvider.deleteKey()
+        rsa.deleteKey()
     }
 
     @Test
     fun shouldKeyBeNotExpiredWhenDurationPeriodDidNotPass() {
-        val isExpired = rsaProvider.isKeyExpired()
+        val isExpired = rsa.isKeyExpired()
 
         assert(isExpired).isEqualTo(false)
     }
@@ -45,17 +45,17 @@ class RsaProviderTest {
     @Test
     fun shouldKeyBeExpiredWhenDurationPeriodPassed() {
         Thread.sleep(sleepThreshold)
-        val isExpired = rsaProvider.isKeyExpired()
+        val isExpired = rsa.isKeyExpired()
 
         assert(isExpired).isEqualTo(true)
     }
 
     @Test
     fun shouldThrowExceptionWhenCheckingExpirationGivenKeyDeleted() {
-        rsaProvider.deleteKey()
+        rsa.deleteKey()
 
         try {
-            rsaProvider.isKeyExpired()
+            rsa.isKeyExpired()
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
                 return
@@ -66,23 +66,23 @@ class RsaProviderTest {
 
     @Test
     fun shouldReturnSameValueWhenEncryptedAndDecrypted() {
-        val encryptedString = rsaProvider.encrypt(initialString)
+        val encryptedString = rsa.encrypt(initialString)
 
-        assert(rsaProvider.decrypt(encryptedString)).isEqualTo(initialString)
+        assert(rsa.decrypt(encryptedString)).isEqualTo(initialString)
     }
 
     @Test(expected = Exception::class)
     fun shouldThrowExceptionWhenDecryptingGivenWrongInputParameter() {
-        rsaProvider.decrypt(initialString)
+        rsa.decrypt(initialString)
     }
 
     @Test
     fun shouldReturnSameValueWhenEncryptedAndDecryptedGivenProvidedPublicKey() {
-        val publicKey = rsaProvider.getPublicKey()
+        val publicKey = rsa.getPublicKey()
 
-        val encryptedString = rsaProvider.encryptWithProvidedPublicKey(initialString, publicKey)
+        val encryptedString = rsa.encryptWithProvidedPublicKey(initialString, publicKey)
 
-        assert(rsaProvider.decrypt(encryptedString)).isEqualTo(initialString)
+        assert(rsa.decrypt(encryptedString)).isEqualTo(initialString)
     }
 
     @Test
@@ -90,7 +90,7 @@ class RsaProviderTest {
         Thread.sleep(sleepThreshold)
 
         try {
-            rsaProvider.encrypt(initialString)
+            rsa.encrypt(initialString)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_EXPIRED)
                 return
@@ -100,11 +100,11 @@ class RsaProviderTest {
 
     @Test
     fun shouldThrowExceptionWhenDecryptingGivenDurationPeriodPassed() {
-        val encrypted = rsaProvider.encrypt(initialString)
+        val encrypted = rsa.encrypt(initialString)
         Thread.sleep(sleepThreshold)
 
         try {
-            rsaProvider.decrypt(encrypted)
+            rsa.decrypt(encrypted)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_EXPIRED)
                 return
@@ -118,17 +118,17 @@ class RsaProviderTest {
         val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
         val rsa = RsaProvider(context, keyProperties)
         val publicKey = rsa.getPublicKey()
-        val encrypted = rsaProvider.encryptWithProvidedPublicKey(initialString, publicKey)
+        val encrypted = this.rsa.encryptWithProvidedPublicKey(initialString, publicKey)
 
-        rsaProvider.decrypt(encrypted)
+        this.rsa.decrypt(encrypted)
     }
 
     @Test
     fun shouldThrowExceptionWhenEncryptingGivenKeyDeleted() {
-        rsaProvider.deleteKey()
+        rsa.deleteKey()
 
         try {
-            rsaProvider.encrypt(initialString)
+            rsa.encrypt(initialString)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
                 return
@@ -139,11 +139,11 @@ class RsaProviderTest {
 
     @Test
     fun shouldThrowExceptionWhenDecryptingGivenKeyDeleted() {
-        val encrypted = rsaProvider.encrypt(initialString)
-        rsaProvider.deleteKey()
+        val encrypted = rsa.encrypt(initialString)
+        rsa.deleteKey()
 
         try {
-            rsaProvider.decrypt(encrypted)
+            rsa.decrypt(encrypted)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
                 return
@@ -154,11 +154,11 @@ class RsaProviderTest {
 
     @Test
     fun shouldNotThrowExceptionWhenEncryptingGivenKeyDeletedAndCreatedNew() {
-        rsaProvider.deleteKey()
-        rsaProvider.createNewKeys()
+        rsa.deleteKey()
+        rsa.createNewKeys()
 
         try {
-            rsaProvider.encrypt(initialString)
+            rsa.encrypt(initialString)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
                 fail("Key should exist")
@@ -169,11 +169,11 @@ class RsaProviderTest {
     @Test
     fun shouldNotThrowExceptionWhenEncryptingGivenOldKeyDurationPeriodPassedAndKeyDeletedAndCreatedNew() {
         Thread.sleep(sleepThreshold)
-        rsaProvider.deleteKey()
-        rsaProvider.createNewKeys()
+        rsa.deleteKey()
+        rsa.createNewKeys()
 
         try {
-            rsaProvider.encrypt(initialString)
+            rsa.encrypt(initialString)
         } catch (e: KeyValidationException) {
             if (e.code == KeyValidationException.ExceptionCode.KEY_NOT_FOUND) {
                 fail("Key should exist")
@@ -183,11 +183,11 @@ class RsaProviderTest {
 
     @Test(expected = Exception::class)
     fun shouldThrowExceptionWhenDecryptingGivenKeyDeletedAndCreatedNew() {
-        val encrypted = rsaProvider.encrypt(initialString)
-        rsaProvider.deleteKey()
-        rsaProvider.createNewKeys()
+        val encrypted = rsa.encrypt(initialString)
+        rsa.deleteKey()
+        rsa.createNewKeys()
 
-        rsaProvider.decrypt(encrypted)
+        rsa.decrypt(encrypted)
     }
 
 }

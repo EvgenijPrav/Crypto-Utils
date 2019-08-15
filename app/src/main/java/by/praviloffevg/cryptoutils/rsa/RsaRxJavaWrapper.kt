@@ -19,62 +19,62 @@ object RsaRxJavaWrapper {
         context: Context,
         keyProperties: KeyProperties,
         scheduler: Scheduler = Schedulers.computation()
-    ): Observable<RsaProvider> =
+    ): Observable<out Rsa> =
         Observable.just(RsaProvider(context, keyProperties))
             .subscribeOn(scheduler)
 
 
     @WorkerThread
     fun generateNewKeyPair(
-        rsaProvider: RsaProvider,
+        rsa: Rsa,
         scheduler: Scheduler = Schedulers.computation()
     ): Completable =
-        Completable.fromAction { Single.just(rsaProvider.createNewKeys()) }
+        Completable.fromAction { Single.just(rsa.createNewKeys()) }
             .subscribeOn(scheduler)
 
     @WorkerThread
-    fun deleteKeys(rsaProvider: RsaProvider, scheduler: Scheduler = Schedulers.computation())
+    fun deleteKeys(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
             : Completable =
-        Completable.fromAction { Single.just(rsaProvider.deleteKey()) }
+        Completable.fromAction { Single.just(rsa.deleteKey()) }
             .subscribeOn(scheduler)
 
     @WorkerThread
-    fun getPublicKey(rsaProvider: RsaProvider, scheduler: Scheduler = Schedulers.computation())
+    fun getPublicKey(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
             : Single<PublicKey> =
-        Single.just(rsaProvider.getPublicKey())
+        Single.just(rsa.getPublicKey())
             .subscribeOn(scheduler)
 
     @WorkerThread
-    fun isKeyExpired(rsaProvider: RsaProvider, scheduler: Scheduler = Schedulers.computation())
+    fun isKeyExpired(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
             : Single<Boolean> =
-        Single.just(rsaProvider.isKeyExpired())
+        Single.just(rsa.isKeyExpired())
             .subscribeOn(scheduler)
 
     @WorkerThread
     fun encrypt(
-        rsaProvider: RsaProvider,
+        rsa: Rsa,
         messageToEncrypt: String,
         scheduler: Scheduler = Schedulers.computation()
     ): Single<String> =
-        Single.just(rsaProvider.encrypt(messageToEncrypt))
+        Single.just(rsa.encrypt(messageToEncrypt))
             .subscribeOn(scheduler)
 
     @WorkerThread
     fun encryptWithProvidedPublicKey(
-        rsaProvider: RsaProvider,
+        rsa: Rsa,
         messageToEncrypt: String,
         publicKey: PublicKey,
         scheduler: Scheduler = Schedulers.computation()
     ): Single<String> =
-        Single.just(rsaProvider.encryptWithProvidedPublicKey(messageToEncrypt, publicKey))
+        Single.just(rsa.encryptWithProvidedPublicKey(messageToEncrypt, publicKey))
             .subscribeOn(scheduler)
 
     @WorkerThread
     fun decrypt(
-        rsaProvider: RsaProvider,
+        rsa: Rsa,
         decryptedMessage: String,
         scheduler: Scheduler = Schedulers.computation()
     ): Single<String> =
-        Single.just(rsaProvider.decrypt(decryptedMessage))
+        Single.just(rsa.decrypt(decryptedMessage))
             .subscribeOn(scheduler)
 }
