@@ -11,6 +11,7 @@ object HashUtil {
     private const val RIGHT_SHIFT = 4
     private const val LEFT_SHIFT = 1
 
+    @Suppress("MagicNumber")
     fun getHash(input: String, algorithm: Algorithms): String {
         val messageDigest = MessageDigest.getInstance(algorithm.type)
         messageDigest.reset()

@@ -1,6 +1,6 @@
 package by.praviloffevg.cryptoutils.rsa
 
-data class KeyProperties (
+data class KeyProperties(
     val keyAlias: String,
     val keyOwnerName: String,
     val keyOrganizationName: String,

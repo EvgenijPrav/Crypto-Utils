@@ -23,7 +23,6 @@ object RsaRxJavaWrapper {
         Observable.just(RsaProvider(context, keyProperties))
             .subscribeOn(scheduler)
 
-
     @WorkerThread
     fun generateNewKeyPair(
         rsa: Rsa,

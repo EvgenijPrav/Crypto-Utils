@@ -1,13 +1,12 @@
 package by.praviloffevg.cryptoutils.aes
 
-import android.util.Base64
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.SecretKeySpec
 
 abstract class AesImpl
-internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
+internal constructor(private val byteKeyGenerator: ByteKeyGenerator) : Aes {
 
     protected lateinit var cipher: Cipher
 
@@ -36,7 +35,7 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
     }
 
     protected fun getSecretKeySpec(key: CharArray): SecretKeySpec {
-        val verifiedKey = byteKeyGenerator.hmacsha1(key)
+        val verifiedKey = byteKeyGenerator.getHmacsha1(key)
         return SecretKeySpec(verifiedKey, ALGORITHM)
     }
 }
