@@ -11,6 +11,7 @@ object HashUtil {
     private const val RIGHT_SHIFT = 4
     private const val LEFT_SHIFT = 1
 
+    @Suppress("MagicNumber")
     fun getHash(input: String, algorithm: Algorithms): String {
         val messageDigest = MessageDigest.getInstance(algorithm.type)
         messageDigest.reset()
@@ -19,7 +20,7 @@ object HashUtil {
         val sb = StringBuilder(bytes.size shl LEFT_SHIFT)
         for (aByte in bytes) {
             sb.append(Character.forDigit(aByte.toInt() and 0xf0 shr RIGHT_SHIFT, RADIX))
-            sb.append(Character.forDigit((aByte.toInt() and 0x0f), RADIX))
+            sb.append(Character.forDigit(aByte.toInt() and 0x0f, RADIX))
         }
         return sb.toString()
     }

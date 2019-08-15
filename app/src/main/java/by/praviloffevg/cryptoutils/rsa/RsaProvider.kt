@@ -171,6 +171,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         }
     }
 
+    @Suppress("LongMethod")
     @Throws(
         IOException::class,
         NoSuchPaddingException::class,
