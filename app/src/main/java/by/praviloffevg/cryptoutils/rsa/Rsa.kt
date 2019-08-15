@@ -54,12 +54,5 @@ interface Rsa {
     )
     fun decrypt(decryptedMessage: String): String
 
-    @Throws(
-        NoSuchAlgorithmException::class,
-        UnrecoverableEntryException::class,
-        KeyStoreException::class
-    )
-    fun getPrivateKey(): PrivateKey
-
     fun deleteKey()
 }

@@ -134,7 +134,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         IOException::class,
         KeyValidationException::class
     )
-    override fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey): String {
+    override fun encryptWithProvidedPublicKey(
+        messageToEncrypt: String,
+        publicKey: PublicKey
+    ): String {
         if (isKeyExpired()) {
             throw KeyValidationException(
                 KeyValidationException.ExceptionCode.KEY_EXPIRED,
@@ -218,7 +221,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         UnrecoverableEntryException::class,
         KeyStoreException::class
     )
-    override fun getPrivateKey(): PrivateKey {
+    private fun getPrivateKey(): PrivateKey {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             keyStore.getKey(keyProperties.keyAlias, null)
                     as PrivateKey
