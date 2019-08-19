@@ -20,7 +20,7 @@ class RsaProviderTest {
     private val organizationName = "testOrganization"
     private val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
     private val context = InstrumentationRegistry.getTargetContext()
-    private val initialString = "initialString"
+    private val initialString = "initialString".toByteArray()
     private val sleepThreshold = 10100L
 
     private lateinit var rsa: Rsa
@@ -32,7 +32,7 @@ class RsaProviderTest {
 
     @After
     fun dropKeys() {
-        rsa.deleteKey()
+        rsa.deleteKeys()
     }
 
     @Test
@@ -52,7 +52,7 @@ class RsaProviderTest {
 
     @Test
     fun shouldThrowExceptionWhenCheckingExpirationGivenKeyDeleted() {
-        rsa.deleteKey()
+        rsa.deleteKeys()
 
         try {
             rsa.isKeyExpired()
@@ -68,7 +68,7 @@ class RsaProviderTest {
     fun shouldReturnSameValueWhenEncryptedAndDecrypted() {
         val encryptedString = rsa.encrypt(initialString)
 
-        assert(rsa.decrypt(encryptedString)).isEqualTo(initialString)
+        assert { rsa.decrypt(encryptedString).contentEquals(initialString) }
     }
 
     @Test(expected = Exception::class)
@@ -82,7 +82,7 @@ class RsaProviderTest {
 
         val encryptedString = rsa.encryptWithProvidedPublicKey(initialString, publicKey)
 
-        assert(rsa.decrypt(encryptedString)).isEqualTo(initialString)
+        assert { rsa.decrypt(encryptedString).contentEquals(initialString) }
     }
 
     @Test
@@ -125,7 +125,7 @@ class RsaProviderTest {
 
     @Test
     fun shouldThrowExceptionWhenEncryptingGivenKeyDeleted() {
-        rsa.deleteKey()
+        rsa.deleteKeys()
 
         try {
             rsa.encrypt(initialString)
@@ -140,7 +140,7 @@ class RsaProviderTest {
     @Test
     fun shouldThrowExceptionWhenDecryptingGivenKeyDeleted() {
         val encrypted = rsa.encrypt(initialString)
-        rsa.deleteKey()
+        rsa.deleteKeys()
 
         try {
             rsa.decrypt(encrypted)
@@ -154,7 +154,7 @@ class RsaProviderTest {
 
     @Test
     fun shouldNotThrowExceptionWhenEncryptingGivenKeyDeletedAndCreatedNew() {
-        rsa.deleteKey()
+        rsa.deleteKeys()
         rsa.createNewKeys()
 
         try {
@@ -169,7 +169,7 @@ class RsaProviderTest {
     @Test
     fun shouldNotThrowExceptionWhenEncryptingGivenOldKeyDurationPeriodPassedAndKeyDeletedAndCreatedNew() {
         Thread.sleep(sleepThreshold)
-        rsa.deleteKey()
+        rsa.deleteKeys()
         rsa.createNewKeys()
 
         try {
@@ -184,7 +184,7 @@ class RsaProviderTest {
     @Test(expected = Exception::class)
     fun shouldThrowExceptionWhenDecryptingGivenKeyDeletedAndCreatedNew() {
         val encrypted = rsa.encrypt(initialString)
-        rsa.deleteKey()
+        rsa.deleteKeys()
         rsa.createNewKeys()
 
         rsa.decrypt(encrypted)

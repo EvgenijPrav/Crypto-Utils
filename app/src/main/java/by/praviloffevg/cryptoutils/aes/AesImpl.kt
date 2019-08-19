@@ -15,22 +15,30 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator) : Aes {
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun encrypt(textToEncrypt: ByteArray): ByteArray {
+    protected fun encrypt(textToEncrypt: ByteArray): ByteArray {
         return cipher.doFinal(textToEncrypt)
     }
 
+    /**
+     * This method allows to encrypt data
+     * To increase security use [encrypt]
+     * and don't store sensitive data in [String] variables
+     * @param textToEncrypt text to encrypt
+     * @param key is used to encrypt provided data
+     * @return encrypted data in Base64
+     */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
     override fun encrypt(textToEncrypt: String, key: CharArray): ByteArray {
         return encrypt(textToEncrypt.toByteArray(), key)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoByteArray(textToDecrypt: ByteArray): ByteArray {
+    protected fun decryptIntoByteArray(textToDecrypt: ByteArray): ByteArray {
         return cipher.doFinal(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoString(textToDecrypt: ByteArray): String {
+    protected fun decryptIntoString(textToDecrypt: ByteArray): String {
         return String(cipher.doFinal(textToDecrypt))
     }
 

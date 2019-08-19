@@ -11,6 +11,12 @@ object HashUtil {
     private const val RIGHT_SHIFT = 4
     private const val LEFT_SHIFT = 1
 
+    /**
+     * This method allows to calculate hash value of the income parameter
+     * @param input income [String]
+     * @param hash algorithm
+     * @return hash value of the income parameter
+     */
     @Suppress("MagicNumber")
     fun getHash(input: String, algorithm: Algorithms): String {
         val messageDigest = MessageDigest.getInstance(algorithm.type)

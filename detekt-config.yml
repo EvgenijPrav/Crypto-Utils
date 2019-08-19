@@ -27,6 +27,14 @@ build:
     LongParameterList: 1
     comments: 1
 
+comments:
+  CommentOverPrivateProperty:
+    active: true
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: true
+
 processors:
   active: true
   exclude:

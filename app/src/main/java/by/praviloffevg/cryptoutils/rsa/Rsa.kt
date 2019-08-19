@@ -6,11 +6,24 @@ import javax.crypto.NoSuchPaddingException
 
 interface Rsa {
 
+    /**
+     * This method allows to check if the keys are expired
+     * @return is the key has been expired
+     * @exception KeyValidationException - if the key is not found
+     */
     @Throws(KeyValidationException::class)
     fun isKeyExpired(): Boolean
 
+    /**
+     * This method allows to generate new keys
+     */
     fun createNewKeys()
 
+    /**
+     * This method allows to encrypt data
+     * @param messageToEncrypt message to encrypt
+     * @return encrypted data
+     */
     @Throws(
         NoSuchPaddingException::class,
         NoSuchAlgorithmException::class,
@@ -21,8 +34,14 @@ interface Rsa {
         IOException::class,
         KeyValidationException::class
     )
-    fun encrypt(messageToEncrypt: String): String
+    fun encrypt(messageToEncrypt: ByteArray): ByteArray
 
+    /**
+     * This method allows to encrypt data using [PublicKey]
+     * @param messageToEncrypt message to encrypt
+     * @param publicKey public key
+     * @return encrypted data
+     */
     @Throws(
         NoSuchPaddingException::class,
         NoSuchAlgorithmException::class,
@@ -33,8 +52,12 @@ interface Rsa {
         IOException::class,
         KeyValidationException::class
     )
-    fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey): String
+    fun encryptWithProvidedPublicKey(messageToEncrypt: ByteArray, publicKey: PublicKey): ByteArray
 
+    /**
+     * This method allows to fetch [PublicKey]
+     * @return public key
+     */
     @Throws(
         NoSuchAlgorithmException::class,
         UnrecoverableEntryException::class,
@@ -42,6 +65,11 @@ interface Rsa {
     )
     fun getPublicKey(): PublicKey
 
+    /**
+     * This method allows to decrypt data using stored [PrivateKey]
+     * @param messageToDecrypt message to decrypt
+     * @return decrypted data
+     */
     @Throws(
         IOException::class,
         NoSuchPaddingException::class,
@@ -52,7 +80,10 @@ interface Rsa {
         UnrecoverableEntryException::class,
         KeyValidationException::class
     )
-    fun decrypt(decryptedMessage: String): String
+    fun decrypt(messageToDecrypt: ByteArray): ByteArray
 
-    fun deleteKey()
+    /**
+     * This method allows to delete keys from the Android KeyStore
+     */
+    fun deleteKeys()
 }
