@@ -1,13 +1,12 @@
 package by.praviloffevg.cryptoutils.aes
 
-import android.util.Base64
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.SecretKeySpec
 
 abstract class AesImpl
-internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
+internal constructor(private val byteKeyGenerator: ByteKeyGenerator) : Aes {
 
     protected lateinit var cipher: Cipher
 
@@ -16,28 +15,35 @@ internal constructor(private val byteKeyGenerator: ByteKeyGenerator): Aes {
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun encrypt(textToEncrypt: ByteArray): String {
-        val encryptedData = cipher.doFinal(textToEncrypt)
-        return Base64.encodeToString(encryptedData, Base64.NO_CLOSE)
+    protected fun encrypt(textToEncrypt: ByteArray): ByteArray {
+        return cipher.doFinal(textToEncrypt)
     }
 
+    /**
+     * This method allows to encrypt data
+     * To increase security use [encrypt]
+     * and don't store sensitive data in [String] variables
+     * @param textToEncrypt text to encrypt
+     * @param key is used to encrypt provided data
+     * @return encrypted data in Base64
+     */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: String, key: String): String {
+    override fun encrypt(textToEncrypt: String, key: CharArray): ByteArray {
         return encrypt(textToEncrypt.toByteArray(), key)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoByteArray(textToDecrypt: String): ByteArray {
-        return cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE))
+    protected fun decryptIntoByteArray(textToDecrypt: ByteArray): ByteArray {
+        return cipher.doFinal(textToDecrypt)
     }
 
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoString(textToDecrypt: String): String {
-        return String(cipher.doFinal(Base64.decode(textToDecrypt, Base64.NO_CLOSE)))
+    protected fun decryptIntoString(textToDecrypt: ByteArray): String {
+        return String(cipher.doFinal(textToDecrypt))
     }
 
-    protected fun getSecretKeySpec(key: String): SecretKeySpec {
-        val verifiedKey = byteKeyGenerator.hmacsha1(key)
+    protected fun getSecretKeySpec(key: CharArray): SecretKeySpec {
+        val verifiedKey = byteKeyGenerator.getHmacsha1(key)
         return SecretKeySpec(verifiedKey, ALGORITHM)
     }
 }

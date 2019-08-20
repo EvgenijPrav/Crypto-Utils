@@ -3,13 +3,11 @@ package by.praviloffevg.cryptoutils.rsa
 import android.content.Context
 import android.os.Build
 import android.security.KeyPairGeneratorSpec
-import android.util.Base64
 import android.util.Log
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.math.BigInteger
-import java.nio.charset.StandardCharsets
 import java.security.*
 import java.security.cert.X509Certificate
 import java.util.*
@@ -19,7 +17,7 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.NoSuchPaddingException
 import javax.security.auth.x500.X500Principal
 
-class RsaProvider(private val context: Context, private val keyProperties: KeyProperties) {
+class RsaProvider(private val context: Context, private val keyProperties: KeyProperties) : Rsa {
 
     private companion object {
         private const val TAG = "RsaProvider"
@@ -57,8 +55,13 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
 
     private fun isKeyExist() = keyStore.containsAlias(keyProperties.keyAlias)
 
+    /**
+     * This method allows to check if the key is expired
+     * @return is the key has been expired
+     * @exception KeyValidationException - if the key is not found
+     */
     @Throws(KeyValidationException::class)
-    fun isKeyExpired(): Boolean {
+    override fun isKeyExpired(): Boolean {
         if (!isKeyExist()) {
             throw KeyValidationException(
                 KeyValidationException.ExceptionCode.KEY_NOT_FOUND,
@@ -73,7 +76,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
                 || creationDate.time > System.currentTimeMillis()
     }
 
-    fun createNewKeys() {
+    /**
+     * This method allows to generate new keys
+     */
+    override fun createNewKeys() {
         Log.d(TAG, "Creating new key")
         val x500Name = "CN=${keyProperties.keyOwnerName}, O=${keyProperties.keyOrganizationName}"
         val startDate = Calendar.getInstance()
@@ -94,6 +100,11 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         generator.generateKeyPair()
     }
 
+    /**
+     * This method allows to encrypt data
+     * @param messageToEncrypt message to encrypt
+     * @return encrypted data
+     */
     @Throws(
         NoSuchPaddingException::class,
         NoSuchAlgorithmException::class,
@@ -104,7 +115,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         IOException::class,
         KeyValidationException::class
     )
-    fun encrypt(messageToEncrypt: String): String {
+    override fun encrypt(messageToEncrypt: ByteArray): ByteArray {
         if (isKeyExpired()) {
             throw KeyValidationException(
                 KeyValidationException.ExceptionCode.KEY_EXPIRED,
@@ -117,13 +128,18 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
 
         val outputStream = ByteArrayOutputStream()
         val cipherOutputStream = CipherOutputStream(outputStream, cipher)
-        cipherOutputStream.write(messageToEncrypt.toByteArray(StandardCharsets.UTF_8))
+        cipherOutputStream.write(messageToEncrypt)
         cipherOutputStream.close()
 
-        val outputBytes = outputStream.toByteArray()
-        return Base64.encodeToString(outputBytes, Base64.DEFAULT)
+        return outputStream.toByteArray()
     }
 
+    /**
+     * This method allows to encrypt data using [PublicKey]
+     * @param messageToEncrypt message to encrypt
+     * @param publicKey public key
+     * @return encrypted data
+     */
     @Throws(
         NoSuchPaddingException::class,
         NoSuchAlgorithmException::class,
@@ -134,7 +150,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         IOException::class,
         KeyValidationException::class
     )
-    fun encryptWithProvidedPublicKey(messageToEncrypt: String, publicKey: PublicKey): String {
+    override fun encryptWithProvidedPublicKey(
+        messageToEncrypt: ByteArray,
+        publicKey: PublicKey
+    ): ByteArray {
         if (isKeyExpired()) {
             throw KeyValidationException(
                 KeyValidationException.ExceptionCode.KEY_EXPIRED,
@@ -146,19 +165,22 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
 
         val outputStream = ByteArrayOutputStream()
         val cipherOutputStream = CipherOutputStream(outputStream, cipher)
-        cipherOutputStream.write(messageToEncrypt.toByteArray(StandardCharsets.UTF_8))
+        cipherOutputStream.write(messageToEncrypt)
         cipherOutputStream.close()
 
-        val outputBytes = outputStream.toByteArray()
-        return Base64.encodeToString(outputBytes, Base64.DEFAULT)
+        return outputStream.toByteArray()
     }
 
+    /**
+     * This method allows to fetch [PublicKey]
+     * @return public key
+     */
     @Throws(
         NoSuchAlgorithmException::class,
         UnrecoverableEntryException::class,
         KeyStoreException::class
     )
-    fun getPublicKey(): PublicKey {
+    override fun getPublicKey(): PublicKey {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             keyStore.getCertificate(keyProperties.keyAlias).publicKey
         } else {
@@ -168,6 +190,12 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         }
     }
 
+    /**
+     * This method allows to decrypt data using stored [PrivateKey]
+     * @param messageToDecrypt message to decrypt
+     * @return decrypted data
+     */
+    @Suppress("LongMethod")
     @Throws(
         IOException::class,
         NoSuchPaddingException::class,
@@ -178,7 +206,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         UnrecoverableEntryException::class,
         KeyValidationException::class
     )
-    fun decrypt(decryptedMessage: String): String {
+    override fun decrypt(messageToDecrypt: ByteArray): ByteArray {
         if (isKeyExpired()) {
             throw KeyValidationException(
                 KeyValidationException.ExceptionCode.KEY_EXPIRED,
@@ -189,12 +217,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         val privateKey = getPrivateKey()
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
 
-        val byteArrayInputStream = ByteArrayInputStream(
-            Base64.decode(
-                decryptedMessage,
-                Base64.DEFAULT
-            )
-        )
+        val byteArrayInputStream = ByteArrayInputStream(messageToDecrypt)
         val cipherInputStream = CipherInputStream(byteArrayInputStream, cipher)
         val values = ArrayList<Byte>()
         var nextBytes: Int
@@ -210,7 +233,7 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         for (i in bytes.indices) {
             bytes[i] = values[i]
         }
-        return String(bytes, 0, bytes.size, StandardCharsets.UTF_8)
+        return bytes
     }
 
     @Throws(
@@ -229,7 +252,10 @@ class RsaProvider(private val context: Context, private val keyProperties: KeyPr
         }
     }
 
-    fun deleteKey() {
+    /**
+     * This method allows to delete keys from the Android KeyStore
+     */
+    override fun deleteKeys() {
         if (isKeyExist()) {
             Log.d(TAG, "Key exists, deleting the key")
             keyStore.deleteEntry(keyProperties.keyAlias)

@@ -8,7 +8,7 @@ import javax.crypto.spec.IvParameterSpec
 // Created by Yauheni Pravilau on 01.02.2019.
 // Copyright (c) 2019 . All rights reserved.
 
-class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
+class Cbc(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
         byteKeyGenerator, byteArrayOf(
@@ -33,20 +33,40 @@ class CBC(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGe
         private const val DEFAULT_IV_SIZE = 16
     }
 
+    /**
+     * This method allows to encrypt data
+     * @param textToEncrypt text to encrypt
+     * @param key is used to encrypt provided data
+     * @return encrypted data in Base64
+     */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun encrypt(textToEncrypt: ByteArray, key: String): String {
+    override fun encrypt(textToEncrypt: ByteArray, key: CharArray): ByteArray {
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.encrypt(textToEncrypt)
     }
 
+    /**
+     * This method allows to decrypt data
+     * @param textToDecrypt encrypted data
+     * @param key key to decrypt data
+     * @return encrypted data
+     */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoByteArray(textToDecrypt: String, key: String): ByteArray {
+    override fun decryptIntoByteArray(textToDecrypt: ByteArray, key: CharArray): ByteArray {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.decryptIntoByteArray(textToDecrypt)
     }
 
+    /**
+     * This method allows to decrypt data
+     * To increase security use [decryptIntoByteArray]
+     * and don't store sensitive data in [String] variables
+     * @param textToDecrypt encrypted data
+     * @param key key to decrypt data
+     * @return encrypted data
+     */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    override fun decryptIntoString(textToDecrypt: String, key: String): String {
+    override fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.decryptIntoString(textToDecrypt)
     }

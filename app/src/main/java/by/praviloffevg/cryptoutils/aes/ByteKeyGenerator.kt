@@ -22,13 +22,13 @@ class ByteKeyGenerator(
         private const val ITERATION_COUNT = 2048
     }
 
-    internal fun hmacsha1(key: String): ByteArray {
+    internal fun getHmacsha1(key: CharArray): ByteArray {
         if (DEFAULT_SALT == salt) {
             Log.w(LOG_TAG, "Please specify custom salt to increase security")
         }
         val factory = SecretKeyFactory.getInstance(ALGORITHM)
         val keySpec = PBEKeySpec(
-            key.toCharArray(),
+            key,
             salt.toByteArray(),
             ITERATION_COUNT,
             keySpecification.length

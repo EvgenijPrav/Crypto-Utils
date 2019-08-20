@@ -20,14 +20,14 @@ class HashUtilTest {
     @Test
     @Parameters(method = "getHashes")
     fun `should return correct hash`(inputParam: String, expectedParam: String, algorithm: Algorithms) {
-        assert(hashUtil.getHash(inputParam, algorithm)).isEqualTo(expectedParam)
+        assert(hashUtil.getHash(inputParam.toByteArray(), algorithm)).isEqualTo(expectedParam)
     }
 
     @Test
     @Parameters(method = "getLength")
     fun `should return correct length`(algorithm: Algorithms, length: Int) {
         val inputParam = "Test"
-        val hashedValue = hashUtil.getHash(inputParam, algorithm)
+        val hashedValue = hashUtil.getHash(inputParam.toByteArray(), algorithm)
         assert(hashedValue.length).isEqualTo(length)
     }
 
@@ -35,9 +35,9 @@ class HashUtilTest {
     @Parameters(method = "getAlgorithms")
     fun `should return the same values when getting hash given called second time`(algorithm: Algorithms) {
         val inputParam = "input param"
-        val firstHash = hashUtil.getHash(inputParam, algorithm)
+        val firstHash = hashUtil.getHash(inputParam.toByteArray(), algorithm)
 
-        val secondHash = hashUtil.getHash(inputParam, algorithm)
+        val secondHash = hashUtil.getHash(inputParam.toByteArray(), algorithm)
 
         assert(firstHash).isEqualTo(secondHash)
     }

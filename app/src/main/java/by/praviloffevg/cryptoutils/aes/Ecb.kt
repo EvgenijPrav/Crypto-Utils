@@ -1,9 +1,18 @@
 package by.praviloffevg.cryptoutils.aes
 
 import javax.crypto.BadPaddingException
+import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 
-interface Aes {
+class Ecb(byteKeyGenerator: ByteKeyGenerator) : AesImpl(byteKeyGenerator) {
+
+    init {
+        cipher = Cipher.getInstance(CYPHER)
+    }
+
+    private companion object {
+        private const val CYPHER = "AES/ECB/PKCS5padding"
+    }
 
     /**
      * This method allows to encrypt data
@@ -12,18 +21,10 @@ interface Aes {
      * @return encrypted data in Base64
      */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun encrypt(textToEncrypt: ByteArray, key: CharArray): ByteArray
-
-    /**
-     * This method allows to encrypt data
-     * To increase security use [encrypt]
-     * and don't store sensitive data in [String] variables
-     * @param textToEncrypt text to encrypt
-     * @param key is used to encrypt provided data
-     * @return encrypted data in Base64
-     */
-    @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun encrypt(textToEncrypt: String, key: CharArray): ByteArray
+    override fun encrypt(textToEncrypt: ByteArray, key: CharArray): ByteArray {
+        cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec(key))
+        return super.encrypt(textToEncrypt)
+    }
 
     /**
      * This method allows to decrypt data
@@ -32,7 +33,10 @@ interface Aes {
      * @return encrypted data
      */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoByteArray(textToDecrypt: ByteArray, key: CharArray): ByteArray
+    override fun decryptIntoByteArray(textToDecrypt: ByteArray, key: CharArray): ByteArray {
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key))
+        return super.decryptIntoByteArray(textToDecrypt)
+    }
 
     /**
      * This method allows to decrypt data
@@ -43,5 +47,8 @@ interface Aes {
      * @return encrypted data
      */
     @Throws(IllegalBlockSizeException::class, BadPaddingException::class)
-    fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String
+    override fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String {
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key))
+        return super.decryptIntoString(textToDecrypt)
+    }
 }
