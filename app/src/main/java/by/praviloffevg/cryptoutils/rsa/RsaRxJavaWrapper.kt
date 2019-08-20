@@ -15,6 +15,8 @@ import java.security.PublicKey
 
 object RsaRxJavaWrapper {
 
+    private val defaultScheduler = Schedulers.computation()
+
     /**
      * This method allows to create a new instance of [RsaProvider]
      * @param context [Context]
@@ -26,7 +28,7 @@ object RsaRxJavaWrapper {
     fun getRsaInstance(
         context: Context,
         keyProperties: KeyProperties,
-        scheduler: Scheduler = Schedulers.computation()
+        scheduler: Scheduler = defaultScheduler
     ): Observable<out Rsa> =
         Observable.just(RsaProvider(context, keyProperties))
             .subscribeOn(scheduler)
@@ -40,7 +42,7 @@ object RsaRxJavaWrapper {
     @WorkerThread
     fun generateNewKeyPair(
         rsa: Rsa,
-        scheduler: Scheduler = Schedulers.computation()
+        scheduler: Scheduler = defaultScheduler
     ): Completable =
         Completable.fromAction { Single.just(rsa.createNewKeys()) }
             .subscribeOn(scheduler)
@@ -52,7 +54,7 @@ object RsaRxJavaWrapper {
      * @return [Completable] with the result of method invocation
      */
     @WorkerThread
-    fun deleteKeys(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
+    fun deleteKeys(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
             : Completable =
         Completable.fromAction { Single.just(rsa.deleteKeys()) }
             .subscribeOn(scheduler)
@@ -64,7 +66,7 @@ object RsaRxJavaWrapper {
      * @return [Single] with [PublicKey] instance
      */
     @WorkerThread
-    fun getPublicKey(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
+    fun getPublicKey(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
             : Single<PublicKey> =
         Single.just(rsa.getPublicKey())
             .subscribeOn(scheduler)
@@ -76,7 +78,7 @@ object RsaRxJavaWrapper {
      * @return [Single] with the [Boolean] value shows is the keys have been expired
      */
     @WorkerThread
-    fun isKeyExpired(rsa: Rsa, scheduler: Scheduler = Schedulers.computation())
+    fun isKeyExpired(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
             : Single<Boolean> =
         Single.just(rsa.isKeyExpired())
             .subscribeOn(scheduler)
@@ -92,7 +94,7 @@ object RsaRxJavaWrapper {
     fun encrypt(
         rsa: Rsa,
         messageToEncrypt: ByteArray,
-        scheduler: Scheduler = Schedulers.computation()
+        scheduler: Scheduler = defaultScheduler
     ): Single<ByteArray> =
         Single.just(rsa.encrypt(messageToEncrypt))
             .subscribeOn(scheduler)
@@ -110,7 +112,7 @@ object RsaRxJavaWrapper {
         rsa: Rsa,
         messageToEncrypt: ByteArray,
         publicKey: PublicKey,
-        scheduler: Scheduler = Schedulers.computation()
+        scheduler: Scheduler = defaultScheduler
     ): Single<ByteArray> =
         Single.just(rsa.encryptWithProvidedPublicKey(messageToEncrypt, publicKey))
             .subscribeOn(scheduler)
@@ -126,7 +128,7 @@ object RsaRxJavaWrapper {
     fun decrypt(
         rsa: Rsa,
         messageToDecrypt: ByteArray,
-        scheduler: Scheduler = Schedulers.computation()
+        scheduler: Scheduler = defaultScheduler
     ): Single<ByteArray> =
         Single.just(rsa.decrypt(messageToDecrypt))
             .subscribeOn(scheduler)
