@@ -2,14 +2,11 @@ package by.praviloffevg.cryptoutils.hash
 
 import assertk.assert
 import assertk.assertions.isEqualTo
+import by.praviloffevg.cryptoutils.hash.HashUtil.Algorithms
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.junit.Test
 import org.junit.runner.RunWith
-
-
-// Created by Yauheni Pravilau on 03.02.2019.
-// Copyright (c) 2019 . All rights reserved.
 
 @Suppress("DEPRECATION")
 @RunWith(JUnitParamsRunner::class)
@@ -19,7 +16,11 @@ class HashUtilTest {
 
     @Test
     @Parameters(method = "getHashes")
-    fun `should return correct hash`(inputParam: String, expectedParam: String, algorithm: Algorithms) {
+    fun `should return correct hash`(
+        inputParam: String,
+        expectedParam: String,
+        algorithm: Algorithms
+    ) {
         assert(hashUtil.getHash(inputParam.toByteArray(), algorithm)).isEqualTo(expectedParam)
     }
 
