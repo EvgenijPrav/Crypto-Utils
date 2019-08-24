@@ -2,9 +2,6 @@ package by.praviloffevg.cryptoutils.hash
 
 import java.security.MessageDigest
 
-// Created by Yauheni Pravilau on 02.02.2019.
-// Copyright (c) 2019 . All rights reserved.
-
 object HashUtil {
 
     private const val RADIX = 16
@@ -29,5 +26,15 @@ object HashUtil {
             sb.append(Character.forDigit(aByte.toInt() and 0x0f, RADIX))
         }
         return sb.toString()
+    }
+
+    enum class Algorithms(val type: String) {
+        SHA1("SHA1"),
+        SHA_224("SHA-224"),
+        SHA_256("SHA-256"),
+        SHA_384("SHA-384"),
+        SHA_512("SHA-512"),
+        @Deprecated("Avoid using MD5 for hashing")
+        MD5("MD5")
     }
 }

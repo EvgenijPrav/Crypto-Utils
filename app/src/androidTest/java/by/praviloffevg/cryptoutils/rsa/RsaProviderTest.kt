@@ -14,11 +14,19 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RsaProviderTest {
-    private val keyValidationProperties = KeyValidationProperties(KeyDurationPeriod.SECOND, 10)
+    private val keyValidationProperties = KeyValidationProperties(
+        KeyValidationProperties.KeyDurationPeriod.SECOND,
+        10
+    )
     private val keyAlias = "testKey"
     private val keyOwner = "testOwner"
     private val organizationName = "testOrganization"
-    private val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
+    private val keyProperties = KeyProperties(
+        keyAlias,
+        keyOwner,
+        organizationName,
+        keyValidationProperties
+    )
     private val context = InstrumentationRegistry.getTargetContext()
     private val initialString = "initialString".toByteArray()
     private val sleepThreshold = 10100L
@@ -115,7 +123,12 @@ class RsaProviderTest {
     @Test(expected = Exception::class)
     fun shouldThrowExceptionWhenDecryptingGivenEncryptedWithAnotherPublicKey() {
         val keyAlias = "anotherKey"
-        val keyProperties = KeyProperties(keyAlias, keyOwner, organizationName, keyValidationProperties)
+        val keyProperties = KeyProperties(
+            keyAlias,
+            keyOwner,
+            organizationName,
+            keyValidationProperties
+        )
         val rsa = RsaProvider(context, keyProperties)
         val publicKey = rsa.getPublicKey()
         val encrypted = this.rsa.encryptWithProvidedPublicKey(initialString, publicKey)

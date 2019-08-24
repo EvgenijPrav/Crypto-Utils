@@ -17,7 +17,14 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.NoSuchPaddingException
 import javax.security.auth.x500.X500Principal
 
-class RsaProvider(private val context: Context, private val keyProperties: KeyProperties) : Rsa {
+/**
+ * @param context [Context] instance
+ * @param keyProperties [KeyProperties] that are used to create and associate key pair
+ */
+class RsaProvider(
+    private val context: Context,
+    private val keyProperties: KeyProperties
+) : Rsa {
 
     private companion object {
         private const val TAG = "RsaProvider"

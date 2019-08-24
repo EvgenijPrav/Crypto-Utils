@@ -4,6 +4,9 @@ import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 
+/**
+ * @param byteKeyGenerator [ByteKeyGenerator] instance
+ */
 class Ecb(byteKeyGenerator: ByteKeyGenerator) : AesImpl(byteKeyGenerator) {
 
     init {
