@@ -5,10 +5,14 @@ import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.IvParameterSpec
 
-// Created by Yauheni Pravilau on 01.02.2019.
-// Copyright (c) 2019 . All rights reserved.
-
-class Cbc(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGenerator) {
+/**
+ * @param byteKeyGenerator [ByteKeyGenerator] instance
+ * @param initializationVector initialization vector
+ */
+class Cbc(
+    byteKeyGenerator: ByteKeyGenerator,
+    initializationVector: ByteArray
+) : AesImpl(byteKeyGenerator) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
         byteKeyGenerator, byteArrayOf(
@@ -20,13 +24,13 @@ class Cbc(byteKeyGenerator: ByteKeyGenerator, iv: ByteArray) : AesImpl(byteKeyGe
     )
 
     init {
-        if (iv.size != DEFAULT_IV_SIZE) {
+        if (initializationVector.size != DEFAULT_IV_SIZE) {
             throw IllegalArgumentException("IV must be 16 bytes long")
         }
         cipher = Cipher.getInstance(CYPHER)
     }
 
-    private val ivParameterSpec = IvParameterSpec(iv)
+    private val ivParameterSpec = IvParameterSpec(initializationVector)
 
     private companion object {
         private const val CYPHER = "AES/CBC/PKCS5padding"
