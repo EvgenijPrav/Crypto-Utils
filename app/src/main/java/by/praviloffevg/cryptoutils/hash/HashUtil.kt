@@ -10,7 +10,7 @@ object HashUtil {
 
     /**
      * This method allows to calculate hash value of the income parameter
-     * @param input  input parameter
+     * @param input input parameter
      * @param algorithm algorithm
      * @return hash value of the income parameter
      */
