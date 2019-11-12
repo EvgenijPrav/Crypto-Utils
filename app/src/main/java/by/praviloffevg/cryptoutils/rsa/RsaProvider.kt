@@ -8,9 +8,17 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.math.BigInteger
-import java.security.*
+import java.security.InvalidKeyException
+import java.security.KeyPairGenerator
+import java.security.KeyStore
+import java.security.KeyStoreException
+import java.security.NoSuchAlgorithmException
+import java.security.NoSuchProviderException
+import java.security.PrivateKey
+import java.security.PublicKey
+import java.security.UnrecoverableEntryException
 import java.security.cert.X509Certificate
-import java.util.*
+import java.util.Calendar
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
@@ -79,8 +87,8 @@ class RsaProvider(
         val expirationDate = certificate.notAfter
         val creationDate = certificate.notBefore
 
-        return expirationDate.time < System.currentTimeMillis()
-                || creationDate.time > System.currentTimeMillis()
+        return expirationDate.time < System.currentTimeMillis() ||
+                creationDate.time > System.currentTimeMillis()
     }
 
     /**

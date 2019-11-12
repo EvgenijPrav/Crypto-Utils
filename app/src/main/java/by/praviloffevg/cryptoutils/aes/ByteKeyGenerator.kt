@@ -12,8 +12,8 @@ class ByteKeyGenerator(
     private val salt: String
 ) {
 
-    constructor(keySpecification: AesKeySpecification)
-            : this(keySpecification, DEFAULT_SALT)
+    constructor(keySpecification: AesKeySpecification) :
+            this(keySpecification, DEFAULT_SALT)
 
     private companion object {
         private const val LOG_TAG = "ByteKeyGenerator"

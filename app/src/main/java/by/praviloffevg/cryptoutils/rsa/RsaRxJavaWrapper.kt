@@ -54,8 +54,7 @@ object RsaRxJavaWrapper {
      * @return [Completable] with the result of method invocation
      */
     @WorkerThread
-    fun deleteKeys(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
-            : Completable =
+    fun deleteKeys(rsa: Rsa, scheduler: Scheduler = defaultScheduler): Completable =
         Completable.fromAction { Single.just(rsa.deleteKeys()) }
             .subscribeOn(scheduler)
 
@@ -66,8 +65,7 @@ object RsaRxJavaWrapper {
      * @return [Single] with [PublicKey] instance
      */
     @WorkerThread
-    fun getPublicKey(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
-            : Single<PublicKey> =
+    fun getPublicKey(rsa: Rsa, scheduler: Scheduler = defaultScheduler): Single<PublicKey> =
         Single.just(rsa.getPublicKey())
             .subscribeOn(scheduler)
 
@@ -78,8 +76,7 @@ object RsaRxJavaWrapper {
      * @return [Single] with the [Boolean] value shows is the keys have been expired
      */
     @WorkerThread
-    fun isKeyExpired(rsa: Rsa, scheduler: Scheduler = defaultScheduler)
-            : Single<Boolean> =
+    fun isKeyExpired(rsa: Rsa, scheduler: Scheduler = defaultScheduler): Single<Boolean> =
         Single.just(rsa.isKeyExpired())
             .subscribeOn(scheduler)
 
