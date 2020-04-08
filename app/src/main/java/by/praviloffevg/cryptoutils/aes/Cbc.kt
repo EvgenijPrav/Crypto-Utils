@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptoutils.aes
 
+import android.util.Log
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
@@ -15,27 +16,20 @@ class Cbc(
 ) : AesImpl(byteKeyGenerator) {
 
     constructor(byteKeyGenerator: ByteKeyGenerator) : this(
-        byteKeyGenerator, byteArrayOf(
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00
-        )
+        byteKeyGenerator, DEFAULT_INITIALIZATION_VECTOR
     )
 
     init {
         if (initializationVector.size != DEFAULT_IV_SIZE) {
             throw IllegalArgumentException("IV must be 16 bytes long")
         }
+        if (DEFAULT_INITIALIZATION_VECTOR.contentEquals(initializationVector)) {
+            Log.w(LOG_TAG, WARNING_MESSAGE)
+        }
         cipher = Cipher.getInstance(CYPHER)
     }
 
     private val ivParameterSpec = IvParameterSpec(initializationVector)
-
-    private companion object {
-        private const val CYPHER = "AES/CBC/PKCS5padding"
-        private const val DEFAULT_IV_SIZE = 16
-    }
 
     /**
      * This method allows to encrypt data
@@ -73,5 +67,18 @@ class Cbc(
     override fun decryptIntoString(textToDecrypt: ByteArray, key: CharArray): String {
         cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec(key), ivParameterSpec)
         return super.decryptIntoString(textToDecrypt)
+    }
+
+    private companion object {
+        private const val CYPHER = "AES/CBC/PKCS5padding"
+        private const val DEFAULT_IV_SIZE = 16
+        private const val LOG_TAG = "AES/CBS"
+        private const val WARNING_MESSAGE = "Please specify custom initialization vector to increase security"
+        private val DEFAULT_INITIALIZATION_VECTOR = byteArrayOf(
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00
+        )
     }
 }
