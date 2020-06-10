@@ -4,9 +4,7 @@ package by.praviloffevg.cryptoutils.rsa
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import assertk.assert
-import assertk.assertions.isEqualTo
-import assertk.fail
+import junit.framework.TestCase.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -47,7 +45,7 @@ class RsaProviderTest {
     fun shouldKeyBeNotExpiredWhenDurationPeriodDidNotPass() {
         val isExpired = rsa.isKeyExpired()
 
-        assert(isExpired).isEqualTo(false)
+        assertFalse(isExpired)
     }
 
     @Test
@@ -55,7 +53,7 @@ class RsaProviderTest {
         Thread.sleep(sleepThreshold)
         val isExpired = rsa.isKeyExpired()
 
-        assert(isExpired).isEqualTo(true)
+        assertTrue(isExpired)
     }
 
     @Test
@@ -76,7 +74,7 @@ class RsaProviderTest {
     fun shouldReturnSameValueWhenEncryptedAndDecrypted() {
         val encryptedString = rsa.encrypt(initialString)
 
-        assert { rsa.decrypt(encryptedString).contentEquals(initialString) }
+        assertTrue(rsa.decrypt(encryptedString).contentEquals(initialString))
     }
 
     @Test(expected = Exception::class)
@@ -90,7 +88,7 @@ class RsaProviderTest {
 
         val encryptedString = rsa.encryptWithProvidedPublicKey(initialString, publicKey)
 
-        assert { rsa.decrypt(encryptedString).contentEquals(initialString) }
+        assertTrue(rsa.decrypt(encryptedString).contentEquals(initialString))
     }
 
     @Test
