@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptoutils.aes
 
+import android.os.Build
 import assertk.assert
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEqualTo
@@ -8,10 +9,12 @@ import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(Enclosed::class)
 class CbcTest {
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class CbcTestAes256 {
 
         private val initialValue = "initialString"
@@ -119,6 +122,7 @@ class CbcTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class CbcTestAes192 {
 
         private val initialValue = "initialString"
@@ -226,6 +230,7 @@ class CbcTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class CbcTestAes128 {
 
         private val initialValue = "initialString"
