@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptoutils.aes
 
+import android.os.Build
 import assertk.assert
 import assertk.assertions.isEqualTo
 import by.praviloffevg.cryptoutils.TestUtils.byteArrayOfInts
@@ -7,10 +8,12 @@ import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(Enclosed::class)
 class EcbTest {
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class EcbTestAes256 {
         private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
@@ -65,6 +68,7 @@ class EcbTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class EcbTestAes192 {
         private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
@@ -119,6 +123,7 @@ class EcbTest {
     }
 
     @RunWith(RobolectricTestRunner::class)
+    @Config(sdk = [Build.VERSION_CODES.P])
     class EcbTestAes128 {
         private val initialValue = "initialString"
         private val key = charArrayOf('k', 'e', 'y')
