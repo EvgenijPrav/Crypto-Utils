@@ -1,5 +1,6 @@
 package by.praviloffevg.cryptoutils.aes
 
+import android.annotation.SuppressLint
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
@@ -7,6 +8,7 @@ import javax.crypto.IllegalBlockSizeException
 /**
  * @param byteKeyGenerator [ByteKeyGenerator] instance
  */
+@SuppressLint("GetInstance")
 class Ecb(byteKeyGenerator: ByteKeyGenerator) : AesImpl(byteKeyGenerator) {
 
     init {
