@@ -1,5 +1,31 @@
 version: 2
 jobs:
+  lint:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-29
+    environment:
+      JVM_OPTS: -Xmx4G
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Clean
+          command: ./gradlew clean
+      - run:
+          name: Run Lint
+          command: ./gradlew lint
   detekt:
     working_directory: ~/code
     docker:
