@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    parallelism: 3
     working_directory: ~/code
     docker:
       - image: circleci/android:api-29
