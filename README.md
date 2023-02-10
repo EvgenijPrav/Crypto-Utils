@@ -57,7 +57,7 @@ All public API methods have it's own documentation, please refer to it in case o
 
 ## License
 
-Copyright 2019 Yauheni Pravilau
+Copyright 2023 Yauheni Pravilau
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
